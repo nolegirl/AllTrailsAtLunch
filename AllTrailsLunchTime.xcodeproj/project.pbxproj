@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		1F099706275EF58800967EB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F099705275EF58800967EB1 /* Assets.xcassets */; };
 		1F099709275EF58800967EB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F099707275EF58800967EB1 /* LaunchScreen.storyboard */; };
 		1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099714275EF5DA00967EB1 /* MapDisplayController.swift */; };
+		1F099717275F05CC00967EB1 /* PlacesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099716275F05CC00967EB1 /* PlacesService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		1F099708275EF58800967EB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F09970A275EF58800967EB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F099714275EF5DA00967EB1 /* MapDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDisplayController.swift; sourceTree = "<group>"; };
+		1F099716275F05CC00967EB1 /* PlacesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		1F099711275EF59700967EB1 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				1F099716275F05CC00967EB1 /* PlacesService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 				1F099704275EF58600967EB1 /* AllTrailsLunchTime.xcdatamodeld in Sources */,
 				1F0996FE275EF58600967EB1 /* ViewController.swift in Sources */,
 				1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */,
+				1F099717275F05CC00967EB1 /* PlacesService.swift in Sources */,
 				1F0996FA275EF58600967EB1 /* AppDelegate.swift in Sources */,
 				1F0996FC275EF58600967EB1 /* SceneDelegate.swift in Sources */,
 			);

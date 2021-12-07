@@ -37,6 +37,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate {
 
         view.addSubview(mapView)
         determineCurrentLocation()
+        
     }
     
     //MARK: - Actions
@@ -74,6 +75,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate {
             
             print("user latitude = \(userLocation.coordinate.latitude)")
             print("user longitude = \(userLocation.coordinate.longitude)")
+        
+        PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude)
     }
         
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)

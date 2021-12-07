@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		1F099704275EF58600967EB1 /* AllTrailsLunchTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F099702275EF58600967EB1 /* AllTrailsLunchTime.xcdatamodeld */; };
 		1F099706275EF58800967EB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F099705275EF58800967EB1 /* Assets.xcassets */; };
 		1F099709275EF58800967EB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F099707275EF58800967EB1 /* LaunchScreen.storyboard */; };
+		1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099714275EF5DA00967EB1 /* MapDisplayController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		1F099705275EF58800967EB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F099708275EF58800967EB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F09970A275EF58800967EB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F099714275EF5DA00967EB1 /* MapDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDisplayController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,10 @@
 		1F0996F8275EF58600967EB1 /* AllTrailsLunchTime */ = {
 			isa = PBXGroup;
 			children = (
+				1F099713275EF5A500967EB1 /* Model */,
+				1F099712275EF59E00967EB1 /* Controllers */,
+				1F099711275EF59700967EB1 /* API */,
+				1F099710275EF59300967EB1 /* View */,
 				1F0996F9275EF58600967EB1 /* AppDelegate.swift */,
 				1F0996FB275EF58600967EB1 /* SceneDelegate.swift */,
 				1F0996FD275EF58600967EB1 /* ViewController.swift */,
@@ -68,6 +74,35 @@
 				1F099702275EF58600967EB1 /* AllTrailsLunchTime.xcdatamodeld */,
 			);
 			path = AllTrailsLunchTime;
+			sourceTree = "<group>";
+		};
+		1F099710275EF59300967EB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1F099711275EF59700967EB1 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		1F099712275EF59E00967EB1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F099714275EF5DA00967EB1 /* MapDisplayController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1F099713275EF5A500967EB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,6 +177,7 @@
 			files = (
 				1F099704275EF58600967EB1 /* AllTrailsLunchTime.xcdatamodeld in Sources */,
 				1F0996FE275EF58600967EB1 /* ViewController.swift in Sources */,
+				1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */,
 				1F0996FA275EF58600967EB1 /* AppDelegate.swift in Sources */,
 				1F0996FC275EF58600967EB1 /* SceneDelegate.swift in Sources */,
 			);

@@ -17,6 +17,7 @@
 		1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099714275EF5DA00967EB1 /* MapDisplayController.swift */; };
 		1F099717275F05CC00967EB1 /* PlacesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099716275F05CC00967EB1 /* PlacesService.swift */; };
 		1F099719275FF68D00967EB1 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099718275FF68D00967EB1 /* Restaurant.swift */; };
+		1F09971F2761050C00967EB1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F09971E2761050C00967EB1 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		1F099714275EF5DA00967EB1 /* MapDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDisplayController.swift; sourceTree = "<group>"; };
 		1F099716275F05CC00967EB1 /* PlacesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesService.swift; sourceTree = "<group>"; };
 		1F099718275FF68D00967EB1 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		1F09971E2761050C00967EB1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				1F0996F9275EF58600967EB1 /* AppDelegate.swift */,
 				1F0996FB275EF58600967EB1 /* SceneDelegate.swift */,
 				1F0996FD275EF58600967EB1 /* ViewController.swift */,
+				1F09971E2761050C00967EB1 /* Extensions.swift */,
 				1F0996FF275EF58600967EB1 /* Main.storyboard */,
 				1F099705275EF58800967EB1 /* Assets.xcassets */,
 				1F099707275EF58800967EB1 /* LaunchScreen.storyboard */,
@@ -184,6 +187,7 @@
 				1F099704275EF58600967EB1 /* AllTrailsLunchTime.xcdatamodeld in Sources */,
 				1F0996FE275EF58600967EB1 /* ViewController.swift in Sources */,
 				1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */,
+				1F09971F2761050C00967EB1 /* Extensions.swift in Sources */,
 				1F099719275FF68D00967EB1 /* Restaurant.swift in Sources */,
 				1F099717275F05CC00967EB1 /* PlacesService.swift in Sources */,
 				1F0996FA275EF58600967EB1 /* AppDelegate.swift in Sources */,

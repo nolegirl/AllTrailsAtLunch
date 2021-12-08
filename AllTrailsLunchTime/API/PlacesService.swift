@@ -9,7 +9,7 @@ import Foundation
 private let kGOOGLE_API_KEY = "AIzaSyDue_S6t9ybh_NqaeOJDkr1KC9a2ycUYuE"
 
 struct PlacesService {
-    static func getNearbyRestaurants(latitude:Double, longitude: Double) {
+    static func getNearbyRestaurants(latitude:Double, longitude: Double, completion: @escaping([Restaurant]) -> Void ) {
         let url:String = "https://maps.googleapis.com/maps/api/place/search/json?location=\(latitude),\(longitude)&radius=500&type=restaurant&key=\(kGOOGLE_API_KEY)"
         guard let serviceURL = URL(string: url) else {return}
         var request = URLRequest(url: serviceURL)
@@ -23,6 +23,8 @@ struct PlacesService {
             }
             
             if let data = data {
+                let restaurantsArray = NSMutableArray()
+                
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.fragmentsAllowed) as! [String : Any]
                     
@@ -31,9 +33,8 @@ struct PlacesService {
                     for restaurantDictionary in restaurants {
                         let dictionary = restaurantDictionary as! [String: Any]
                         
-                        let restaurantName = dictionary["name"] ?? "DEBUG: THIS DIDN'T WORK"
                         let restaurant = Restaurant(dictionary: dictionary)
-                        
+                        restaurantsArray.add(restaurant)
                         print(restaurant)
                     }
 //                    json.forEach { restaurantDict in
@@ -47,8 +48,8 @@ struct PlacesService {
 //                    }
                     
                     
-                    
-                    
+                    let array = restaurantsArray.copy() as! [Restaurant]
+                    completion(array)
                     print(json)
                 } catch {
                     print(error)

@@ -40,6 +40,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         view.backgroundColor = .white
         tableview.delegate = self
         tableview.dataSource = self
+        mapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,8 +84,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         
         let latitude = userLocation.coordinate.latitude
         let longitude = userLocation.coordinate.longitude
-        let latDelta: CLLocationDegrees = 0.05
-        let lonDelta: CLLocationDegrees = 0.05
+        let latDelta: CLLocationDegrees = 0.15
+        let lonDelta: CLLocationDegrees = 0.15
         let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         let region: MKCoordinateRegion = MKCoordinateRegion(center: location, span: span)
@@ -94,7 +95,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
             // Call stopUpdatingLocation() to stop listening for location updates,
             // other wise this function will be called every time when user location changes.
             
-           // manager.stopUpdatingLocation()
+            manager.stopUpdatingLocation()
             
             print("user latitude = \(userLocation.coordinate.latitude)")
             print("user longitude = \(userLocation.coordinate.longitude)")
@@ -155,6 +156,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
                 var coordinate = CLLocationCoordinate2D()
                 coordinate.latitude = restaurant.lat
                 coordinate.longitude = restaurant.lng
+                
+                //TODO: Reimplement as abstracted class
 //                let placePoint: MapPoint = MapPoint(name: restaurant.name, address: "", coordinate: coordinate)
                 
                 let annotation = MKPointAnnotation()

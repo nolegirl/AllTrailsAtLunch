@@ -23,10 +23,13 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         didSet{
             DispatchQueue.main.async {
                 self.tableview.reloadData()
+                self.showRestaurants(data: self.restaurants as NSArray)
             }
             
         }
     }
+    var currentCenter = CLLocationCoordinate2D()
+    var currentDistance: Int = 0
     
 //    var restaurants: Array?
     
@@ -97,7 +100,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
             print("user longitude = \(userLocation.coordinate.longitude)")
         
         PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude) { restaurantsArray in
-            self.restaurants = restaurantsArray as! [Restaurant]
+            self.restaurants = restaurantsArray 
         }
         
 //        PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude)
@@ -109,7 +112,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
             print("DEBUG: Error \(error)")
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
                 locationManager.requestLocation()
             }
@@ -132,11 +135,58 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         return cell ?? UITableViewCell.init()
     }
     
-    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let mapRect: MKMapRect = self.mapView.visibleMapRect
         
+        let eastPoint = MKMapPoint(x: mapRect.minX, y: mapRect.midY)
+        let westPoint = MKMapPoint(x: mapRect.maxX, y: mapRect.midY)
         
-        
+        currentDistance = Int(eastPoint.distance(to: westPoint))
+        currentCenter = self.mapView.centerCoordinate
     }
+    
+    func showRestaurants(data: NSArray) {
+        for annotation:MKAnnotation in mapView.annotations {
+            if (annotation.isKind(of: MapPoint.self)) {
+                mapView.removeAnnotation(annotation)
+            }
+            
+            for restaurant in restaurants {
+                var coordinate = CLLocationCoordinate2D()
+                coordinate.latitude = restaurant.lat
+                coordinate.longitude = restaurant.lng
+//                let placePoint: MapPoint = MapPoint(name: restaurant.name, address: "", coordinate: coordinate)
+                
+                let annotation = MKPointAnnotation()
+                annotation.title = restaurant.name
+                annotation.coordinate = CLLocationCoordinate2D(latitude: restaurant.lat, longitude: restaurant.lng)
+            
+                
+                DispatchQueue.main.async {
+                    self.mapView.addAnnotation(annotation as MKAnnotation)
+                }
+            }
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "MapPoint"
+        
+        if (annotation.isKind(of: MapPoint.self)) {
+            var annotationView: MKPinAnnotationView = self.mapView .dequeueReusableAnnotationView(withIdentifier: identifier) as! MKPinAnnotationView
+            
+            if (annotationView == nil) {
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            }
+            
+            annotationView.isEnabled = true
+            annotationView.canShowCallout = true
+            annotationView.animatesDrop = true
+            return annotationView
+        }
+        return nil
+    }
+    
 }
 
 extension MapDisplayController{

@@ -15,6 +15,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate {
     var locationManager:CLLocationManager!
     let mapView = MKMapView()
     
+//    var restaurants: Array?
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +79,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate {
             print("user longitude = \(userLocation.coordinate.longitude)")
         
         PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude)
+            
     }
         
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)

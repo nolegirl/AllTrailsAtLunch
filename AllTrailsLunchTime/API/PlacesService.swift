@@ -10,7 +10,7 @@ private let kGOOGLE_API_KEY = "AIzaSyDue_S6t9ybh_NqaeOJDkr1KC9a2ycUYuE"
 
 struct PlacesService {
     static func getNearbyRestaurants(latitude:Double, longitude: Double) {
-        let url:String = "https://maps.googleapis.com/maps/api/place/search/json?location=\(latitude),\(longitude)&radius=1500&type=restaurant&key=\(kGOOGLE_API_KEY)"
+        let url:String = "https://maps.googleapis.com/maps/api/place/search/json?location=\(latitude),\(longitude)&radius=500&type=restaurant&key=\(kGOOGLE_API_KEY)"
         guard let serviceURL = URL(string: url) else {return}
         var request = URLRequest(url: serviceURL)
         request.httpMethod = "GET"
@@ -24,7 +24,31 @@ struct PlacesService {
             
             if let data = data {
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.fragmentsAllowed)
+                    let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.fragmentsAllowed) as! [String : Any]
+                    
+                    let restaurants = json["results"] as! NSArray
+                    
+                    for restaurantDictionary in restaurants {
+                        let dictionary = restaurantDictionary as! [String: Any]
+                        
+                        let restaurantName = dictionary["name"] ?? "DEBUG: THIS DIDN'T WORK"
+                        let restaurant = Restaurant(dictionary: dictionary)
+                        
+                        print(restaurant)
+                    }
+//                    json.forEach { restaurantDict in
+//                        let array = restaurantDict
+//
+//
+//                        print(json["results"][0] ?? "results not here")
+//                    }
+//                    for (item in json) {
+//                        let restaurant = Restaurant(dictionary: item as! [String : Any])
+//                    }
+                    
+                    
+                    
+                    
                     print(json)
                 } catch {
                     print(error)

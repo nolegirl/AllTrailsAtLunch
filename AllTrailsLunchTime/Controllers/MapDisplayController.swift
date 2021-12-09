@@ -136,6 +136,11 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         return cell ?? UITableViewCell.init()
     }
     
+    
+}
+
+//MARK: MapView
+extension MapDisplayController{
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let mapRect: MKMapRect = self.mapView.visibleMapRect
         
@@ -175,27 +180,20 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "MapPoint"
         
-        if (annotation.isKind(of: MapPoint.self)) {
-            var annotationView: MKPinAnnotationView = self.mapView .dequeueReusableAnnotationView(withIdentifier: identifier) as! MKPinAnnotationView
-            
-            if (annotationView == nil) {
-                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            }
-            
+        var annotationView: MKAnnotationView
+        
+        if let dequedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+            dequedView.annotation = annotation
+            return dequedView
+        } else {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier )
             annotationView.isEnabled = true
             annotationView.canShowCallout = true
-            annotationView.animatesDrop = true
-            return annotationView
+            
         }
-        return nil
+        annotationView.image = #imageLiteral(resourceName: "pin-inactive")
+        return annotationView
     }
-    
-}
-
-extension MapDisplayController{
-    
-    
-    
 }
 
 extension MapDisplayController {

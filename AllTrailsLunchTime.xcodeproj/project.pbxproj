@@ -19,6 +19,7 @@
 		1F099719275FF68D00967EB1 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F099718275FF68D00967EB1 /* Restaurant.swift */; };
 		1F09971F2761050C00967EB1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F09971E2761050C00967EB1 /* Extensions.swift */; };
 		1F0997212761344C00967EB1 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0997202761344C00967EB1 /* MapPoint.swift */; };
+		1F0997232761441700967EB1 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0997222761441700967EB1 /* CustomAnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		1F099718275FF68D00967EB1 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		1F09971E2761050C00967EB1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1F0997202761344C00967EB1 /* MapPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
+		1F0997222761441700967EB1 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 		1F099710275EF59300967EB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1F0997222761441700967EB1 /* CustomAnnotationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				1F09971F2761050C00967EB1 /* Extensions.swift in Sources */,
 				1F099719275FF68D00967EB1 /* Restaurant.swift in Sources */,
 				1F099717275F05CC00967EB1 /* PlacesService.swift in Sources */,
+				1F0997232761441700967EB1 /* CustomAnnotationView.swift in Sources */,
 				1F0996FA275EF58600967EB1 /* AppDelegate.swift in Sources */,
 				1F0996FC275EF58600967EB1 /* SceneDelegate.swift in Sources */,
 				1F0997212761344C00967EB1 /* MapPoint.swift in Sources */,

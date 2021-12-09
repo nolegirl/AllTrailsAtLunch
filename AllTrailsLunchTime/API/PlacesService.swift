@@ -10,7 +10,7 @@ private let kGOOGLE_API_KEY = "AIzaSyDue_S6t9ybh_NqaeOJDkr1KC9a2ycUYuE"
 
 struct PlacesService {
     static func getNearbyRestaurants(latitude:Double, longitude: Double, completion: @escaping([Restaurant]) -> Void ) {
-        let url:String = "https://maps.googleapis.com/maps/api/place/search/json?location=\(latitude),\(longitude)&radius=5000&type=restaurant&key=\(kGOOGLE_API_KEY)"
+        let url:String = "https://maps.googleapis.com/maps/api/place/search/json?location=\(latitude),\(longitude)&radius=1500&type=restaurant&key=\(kGOOGLE_API_KEY)"
         guard let serviceURL = URL(string: url) else {return}
         var request = URLRequest(url: serviceURL)
         request.httpMethod = "GET"

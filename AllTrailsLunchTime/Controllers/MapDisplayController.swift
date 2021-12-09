@@ -48,7 +48,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         let leftMargin:CGFloat = 10
         let topMargin:CGFloat = 60
         let mapWidth:CGFloat = view.frame.size.width-20
-        let mapHeight:CGFloat = 300
+        let mapHeight:CGFloat = view.frame.size.height-20
 
         mapView.frame = CGRect(x: leftMargin, y: topMargin, width: mapWidth, height: mapHeight)
         mapView.mapType = MKMapType.standard
@@ -58,8 +58,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         view.addSubview(mapView)
         determineCurrentLocation()
         
-        view.addSubview(tableview)
-        tableview.anchor(top: mapView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+//        view.addSubview(tableview)
+//        tableview.anchor(top: mapView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
     }
     
     //MARK: - Actions
@@ -84,8 +84,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         
         let latitude = userLocation.coordinate.latitude
         let longitude = userLocation.coordinate.longitude
-        let latDelta: CLLocationDegrees = 0.05
-        let lonDelta: CLLocationDegrees = 0.05
+        let latDelta: CLLocationDegrees = 0.03
+        let lonDelta: CLLocationDegrees = 0.03
         let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         let region: MKCoordinateRegion = MKCoordinateRegion(center: location, span: span)

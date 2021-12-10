@@ -44,6 +44,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         
         let leftMargin:CGFloat = 10
         let topMargin:CGFloat = 60
@@ -66,7 +67,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
                                       bundle: nil)
             self.tableview.register(textFieldCell,
                                     forCellReuseIdentifier: "RestaurantTableViewCell")
-        tableview.backgroundColor = #colorLiteral(red: 0.9016037583, green: 0.8951634765, blue: 0.9065359235, alpha: 1)
+        tableview.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
+        tableview.separatorColor = .clear
     }
     
     //MARK: - Actions
@@ -108,7 +110,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
             print("user longitude = \(userLocation.coordinate.longitude)")
         
         PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude) { restaurantsArray in
-            self.restaurants = restaurantsArray 
+            self.restaurants = restaurantsArray
+           
         }
         
 //        PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude)

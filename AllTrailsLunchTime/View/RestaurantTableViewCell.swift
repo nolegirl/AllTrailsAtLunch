@@ -22,7 +22,9 @@ class RestaurantTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.cardView.layer.cornerRadius = 5
+        self.cardView.layer.cornerRadius = 8
+        self.cardView.layer.borderWidth = 0.5
+        self.cardView.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

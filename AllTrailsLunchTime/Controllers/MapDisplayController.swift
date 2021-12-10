@@ -135,10 +135,18 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         if let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell") as? RestaurantTableViewCell {
             let restaurant = restaurants[indexPath.row] as Restaurant
             cell.restaurantNameLabel.text = restaurant.name
-            cell.ratingsTotalLabel.text = "\(restaurant.user_ratings_total)" ?? "0"
+            cell.ratingsTotalLabel.text = "(\(restaurant.user_ratings_total))"
             
-            let rating = Int(restaurant.rating ?? 1)
-            switch rating {
+            var rating = 0
+            if restaurant.rating == 0 {
+                rating = 1
+            } else {
+                rating = restaurant.rating
+            }
+            switch restaurant.rating {
+            case 0:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
+                break
             case 1:
                 cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
                 break
@@ -162,15 +170,15 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
             cell.starRatingsImageView.image = UIImage(named: "\(rating)-star")
             switch restaurant.price_level {
             case 1:
-                cell.priceLabel.text = "$"
+                cell.priceLabel.text = "$ •"
             case 2:
-                cell.priceLabel.text = "$$"
+                cell.priceLabel.text = "$$ •"
             case 3:
-                cell.priceLabel.text = "$$$"
+                cell.priceLabel.text = "$$$ •"
             case 4:
-                cell.priceLabel.text = "$$$$"
+                cell.priceLabel.text = "$$$$ •"
             default:
-                cell.priceLabel.text = "$"
+                cell.priceLabel.text = "$ •"
             }
                 return cell
             }

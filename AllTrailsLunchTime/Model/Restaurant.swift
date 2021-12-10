@@ -10,10 +10,10 @@ import Foundation
 struct Restaurant {
     //MARK: - Properties
 //    let name: String?
-    let photo_reference: String?
-    let price_level: Int?
-    let rating: Int?
-    let user_ratings_total: Int?
+    let photo_reference: String
+    let price_level: Int
+    let rating: Int
+    let user_ratings_total: Int
 //    let open_now: Bool?
     let name: String
 //    let types:Array<String>

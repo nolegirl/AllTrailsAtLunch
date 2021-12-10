@@ -31,7 +31,19 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     var currentCenter = CLLocationCoordinate2D()
     var currentDistance: Int = 0
     
-    
+    lazy var tableButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
+        button.imageView?.image = #imageLiteral(resourceName: "list")
+        button.setTitle("List", for: .normal)
+        button.layer.cornerRadius = 8
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 0.5
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
+        button.addTarget(self, action: #selector(showTableView), for: .touchUpInside)
+        return button
+    }()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -57,21 +69,33 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         mapView.isScrollEnabled = true
         mapView.register(RestaurantCallOutView.self, forAnnotationViewWithReuseIdentifier: "RestaurantCallout")
 
-//        view.addSubview(mapView)
+        view.addSubview(mapView)
         determineCurrentLocation()
         
-        view.addSubview(tableview)
-        tableview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+//        view.addSubview(tableview)
+//        tableview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
         
-        let textFieldCell = UINib(nibName: "RestaurantTableViewCell",
-                                      bundle: nil)
-            self.tableview.register(textFieldCell,
-                                    forCellReuseIdentifier: "RestaurantTableViewCell")
-        tableview.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
-        tableview.separatorColor = .clear
+//        let restaurantCell = UINib(nibName: "RestaurantTableViewCell",
+//                                      bundle: nil)
+//            self.tableview.register(restaurantCell,
+//                                    forCellReuseIdentifier: "RestaurantTableViewCell")
+//        tableview.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
+//        tableview.separatorColor = .clear
+        
+        view.addSubview(tableButton)
+        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
+        tableButton.centerX(inView: self.view)
     }
     
     //MARK: - Actions
+    @objc func showTableView() {
+        let controller = TableDisplayController()
+        controller.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(controller, animated: false, completion: nil)
+    }
+    
+
+    //MARK: - Map
     func determineCurrentLocation() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -86,8 +110,6 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         }
     }
     
-
-    //MARK: - Map
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0] as CLLocation
         

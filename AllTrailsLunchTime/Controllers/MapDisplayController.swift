@@ -66,6 +66,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
                                       bundle: nil)
             self.tableview.register(textFieldCell,
                                     forCellReuseIdentifier: "RestaurantTableViewCell")
+        tableview.backgroundColor = #colorLiteral(red: 0.9016037583, green: 0.8951634765, blue: 0.9065359235, alpha: 1)
     }
     
     //MARK: - Actions
@@ -187,7 +188,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 124
+        return 120
     }
 }
 

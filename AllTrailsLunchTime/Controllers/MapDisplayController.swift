@@ -54,6 +54,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         mapView.mapType = MKMapType.standard
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
+        mapView.register(RestaurantCallOutView.self, forAnnotationViewWithReuseIdentifier: "RestaurantCallout")
 
         view.addSubview(mapView)
         determineCurrentLocation()
@@ -194,6 +195,21 @@ extension MapDisplayController{
         }
         annotationView.image = #imageLiteral(resourceName: "pin-inactive")
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let calloutView = RestaurantCallOutView()
+
+        calloutView.translatesAutoresizingMaskIntoConstraints = true
+        calloutView.backgroundColor = .white
+        view.addSubview(calloutView)
+
+        NSLayoutConstraint.activate([
+                calloutView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+                calloutView.widthAnchor.constraint(equalToConstant: 60),
+                calloutView.heightAnchor.constraint(equalToConstant: 30),
+                calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.calloutOffset.x)
+            ])
     }
 }
 

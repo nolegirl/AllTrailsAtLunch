@@ -11,20 +11,16 @@ import MapKit
 class MapPoint:NSObject {
     
     //MARK: - Properties
-    let name: String
-    let address: String
+    let restaurant: Restaurant
+
     let coordinate: CLLocationCoordinate2D
-    var subtitle: String = ""
-    var title: String = ""
+    
     
     //MARK: - Lifecycle
-    init(name: String, address: String, coordinate: CLLocationCoordinate2D) {
-        self.name = name
-        self.address = address
+    init(restaurant:Restaurant, coordinate: CLLocationCoordinate2D) {
+        self.restaurant = restaurant
         self.coordinate = coordinate
-        
-        self.title = name
-        self.subtitle = address
+    
     }
     
     

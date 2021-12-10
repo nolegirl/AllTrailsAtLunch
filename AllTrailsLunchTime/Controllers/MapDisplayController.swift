@@ -54,6 +54,12 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         return button
     }()
     
+    let headerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        return view
+    }()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,13 +70,9 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     }
     
     func configureUI(){
-//        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         
         view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
-        
-        view.addSubview(tableButton)
-        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
-        tableButton.centerX(inView: self.view)
         
         let leftMargin:CGFloat = 10
         let topMargin:CGFloat = 60
@@ -89,14 +91,28 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
         tableButton.centerX(inView: self.view)
         
+        self.view.addSubview(headerView)
+        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 200)
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search for a restaurant"
-        navigationItem.searchController = searchController
+        searchController.extendedLayoutIncludesOpaqueBars = true
         definesPresentationContext = true
-        searchController.searchBar.isUserInteractionEnabled = false
+        self.headerView.addSubview(searchController.searchBar)
+        searchController.searchBar.anchor(left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 40)
+        
+        let logo = UIImage(named: "headerImage")
+        let logoView = UIImageView(image: logo)
+        logoView.contentMode = .scaleAspectFit
+        headerView.addSubview(logoView)
+        logoView.anchor(top: headerView.topAnchor, bottom: searchController.searchBar.topAnchor, paddingTop: 8, width: self.view.frame.size.width, height:80)
+        logoView.centerX(inView: self.headerView)
     }
     
+    override func viewDidLayoutSubviews() {
+        
+    }
     deinit {
         print("deinit \(self)")
     }

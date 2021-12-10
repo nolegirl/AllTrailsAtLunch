@@ -90,8 +90,10 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     //MARK: - Actions
     @objc func showTableView() {
         let controller = TableDisplayController()
+        controller.restaurants = self.restaurants
+        
         controller.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(controller, animated: false, completion: nil)
+        self.navigationController?.pushViewController(controller, animated: false)
     }
     
 

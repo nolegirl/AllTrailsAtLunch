@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchControllerDelegate {
     
     
     //MARK: - Properties
@@ -30,6 +30,15 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     }
     var currentCenter = CLLocationCoordinate2D()
     var currentDistance: Int = 0
+    
+    var filteredRestaurants: [Restaurant] = []
+    let searchController = UISearchController(searchResultsController: nil)
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    var isFiltering: Bool {
+      return searchController.isActive && !isSearchBarEmpty
+    }
     
     lazy var tableButton: UIButton = {
         let button = UIButton()
@@ -54,22 +63,9 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         configureUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        
-//        view.addSubview(tableview)
-//        tableview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
-        
-//        let restaurantCell = UINib(nibName: "RestaurantTableViewCell",
-//                                      bundle: nil)
-//            self.tableview.register(restaurantCell,
-//                                    forCellReuseIdentifier: "RestaurantTableViewCell")
-//        tableview.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
-//        tableview.separatorColor = .clear
-        
-        
-    }
-    
     func configureUI(){
+//        self.navigationController?.navigationBar.isHidden = true
+        
         view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         
         view.addSubview(tableButton)
@@ -92,7 +88,13 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         view.addSubview(tableButton)
         tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
         tableButton.centerX(inView: self.view)
-    
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search for a restaurant"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.isUserInteractionEnabled = false
     }
     
     deinit {
@@ -104,6 +106,14 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         let controller = TableDisplayController()
         controller.restaurants = self.restaurants
         self.navigationController?.pushViewController(controller, animated: false)
+    }
+    
+    //MARK: - Search
+    func filterContentForSearchText(_ searchText: String) {
+      filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
+        return restaurant.name.lowercased().contains(searchText.lowercased())
+      }
+        self.showRestaurants(data: filteredRestaurants as NSArray)
     }
 
 }
@@ -172,12 +182,16 @@ extension MapDisplayController{
     }
     
     func showRestaurants(data: NSArray) {
+        searchController.searchBar.isUserInteractionEnabled = true
         for annotation:MKAnnotation in mapView.annotations {
-            if (annotation.isKind(of: MapPoint.self)) {
+            
                 mapView.removeAnnotation(annotation)
             }
+           
             
-            for restaurant in restaurants {
+            let currentRestaurants = self.isFiltering ? filteredRestaurants : restaurants
+            
+            for restaurant in currentRestaurants {
                 var coordinate = CLLocationCoordinate2D()
                 coordinate.latitude = restaurant.lat
                 coordinate.longitude = restaurant.lng
@@ -191,7 +205,7 @@ extension MapDisplayController{
                 DispatchQueue.main.async {
                     self.mapView.addAnnotation(restAnnotation as MKAnnotation)
                 }
-            }
+            
         }
     }
     
@@ -243,4 +257,14 @@ extension MapDisplayController{
         mapView.setCenter((view.annotation?.coordinate)!, animated: true)
         
     }
+    
+    //MARK: Search
+    
+}
+
+extension MapDisplayController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+      }
 }

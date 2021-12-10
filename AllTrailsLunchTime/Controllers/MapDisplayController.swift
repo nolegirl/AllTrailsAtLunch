@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
+class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     
     //MARK: - Properties
@@ -48,10 +48,6 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .white
-        tableview.delegate = self
-        tableview.dataSource = self
         mapView.delegate = self
         
         determineCurrentLocation()
@@ -107,14 +103,14 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     @objc func showTableView() {
         let controller = TableDisplayController()
         controller.restaurants = self.restaurants
-        
-//        controller.modalPresentationStyle = .fullScreen
-//        self.navigationController?.present(controller, animated: false, completion: nil)
         self.navigationController?.pushViewController(controller, animated: false)
     }
-    
 
-    //MARK: - Map
+}
+
+//MARK: CLLocationManagerDelegate
+extension MapDisplayController {
+    
     func determineCurrentLocation() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -142,20 +138,12 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         mapView.setRegion(region, animated: true)
         mapView.showsUserLocation = true
             
-            // Call stopUpdatingLocation() to stop listening for location updates,
-            // other wise this function will be called every time when user location changes.
-            
-            manager.stopUpdatingLocation()
-            
-            print("user latitude = \(userLocation.coordinate.latitude)")
-            print("user longitude = \(userLocation.coordinate.longitude)")
+        manager.stopUpdatingLocation()
         
         PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude) { restaurantsArray in
             self.restaurants = restaurantsArray
            
         }
-        
-//        PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude)
             
     }
         
@@ -169,74 +157,9 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
                 locationManager.requestLocation()
             }
         }
-    
-    static let restaurantCellIdentifier = "restaurantCell"
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(restaurants.count)
-        return restaurants.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell") as? RestaurantTableViewCell {
-            let restaurant = restaurants[indexPath.row] as Restaurant
-            cell.restaurantNameLabel.text = restaurant.name
-            cell.ratingsTotalLabel.text = "(\(restaurant.user_ratings_total))"
-            
-            var rating = 0
-            if restaurant.rating == 0 {
-                rating = 1
-            } else {
-                rating = restaurant.rating
-            }
-            switch restaurant.rating {
-            case 0:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
-                break
-            case 1:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
-                break
-            case 2:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "2-star")
-                break
-            case 3:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "3-star")
-                break
-            case 4:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "4-star")
-                break
-            case 5:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "5-star")
-                break
-            default:
-                cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
-            }
-            
-            
-            cell.starRatingsImageView.image = UIImage(named: "\(rating)-star")
-            switch restaurant.price_level {
-            case 1:
-                cell.priceLabel.text = "$ •"
-            case 2:
-                cell.priceLabel.text = "$$ •"
-            case 3:
-                cell.priceLabel.text = "$$$ •"
-            case 4:
-                cell.priceLabel.text = "$$$$ •"
-            default:
-                cell.priceLabel.text = "$ •"
-            }
-                return cell
-            }
-        
-        return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
 }
 
-//MARK: MapView
+//MARK: MapKit
 extension MapDisplayController{
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let mapRect: MKMapRect = self.mapView.visibleMapRect
@@ -320,8 +243,4 @@ extension MapDisplayController{
         mapView.setCenter((view.annotation?.coordinate)!, animated: true)
         
     }
-}
-
-extension MapDisplayController {
-    
 }

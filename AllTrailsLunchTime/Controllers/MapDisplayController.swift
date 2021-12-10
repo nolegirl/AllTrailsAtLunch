@@ -56,11 +56,16 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         mapView.isScrollEnabled = true
         mapView.register(RestaurantCallOutView.self, forAnnotationViewWithReuseIdentifier: "RestaurantCallout")
 
-        view.addSubview(mapView)
+//        view.addSubview(mapView)
         determineCurrentLocation()
         
-//        view.addSubview(tableview)
-//        tableview.anchor(top: mapView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        view.addSubview(tableview)
+        tableview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        
+        let textFieldCell = UINib(nibName: "RestaurantTableViewCell",
+                                      bundle: nil)
+            self.tableview.register(textFieldCell,
+                                    forCellReuseIdentifier: "RestaurantTableViewCell")
     }
     
     //MARK: - Actions
@@ -127,17 +132,55 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-
-        if cell == nil {
-            cell = UITableViewCell(style:.default, reuseIdentifier: "cell")
-        }
-
-        cell?.textLabel?.text = restaurants[indexPath.row].name
-        return cell ?? UITableViewCell.init()
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell") as? RestaurantTableViewCell {
+            let restaurant = restaurants[indexPath.row] as Restaurant
+            cell.restaurantNameLabel.text = restaurant.name
+            cell.ratingsTotalLabel.text = "\(restaurant.user_ratings_total)" ?? "0"
+            
+            let rating = Int(restaurant.rating ?? 1)
+            switch rating {
+            case 1:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
+                break
+            case 2:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "2-star")
+                break
+            case 3:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "3-star")
+                break
+            case 4:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "4-star")
+                break
+            case 5:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "5-star")
+                break
+            default:
+                cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
+            }
+            
+            
+            cell.starRatingsImageView.image = UIImage(named: "\(rating)-star")
+            switch restaurant.price_level {
+            case 1:
+                cell.priceLabel.text = "$"
+            case 2:
+                cell.priceLabel.text = "$$"
+            case 3:
+                cell.priceLabel.text = "$$$"
+            case 4:
+                cell.priceLabel.text = "$$$$"
+            default:
+                cell.priceLabel.text = "$"
+            }
+                return cell
+            }
+        
+        return UITableViewCell()
     }
     
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 124
+    }
 }
 
 //MARK: MapView

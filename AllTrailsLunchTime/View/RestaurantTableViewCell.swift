@@ -9,7 +9,24 @@ import UIKit
 
 class RestaurantTableViewCell: UITableViewCell {
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    @IBOutlet weak var restaurantImage: UIImageView!
+    @IBOutlet weak var restaurantNameLabel: UILabel!
+    @IBOutlet weak var starRatingsImageView: UIImageView!
+    
+    @IBOutlet weak var ratingsTotalLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var subtitleLabel: UILabel!
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
     }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
 }

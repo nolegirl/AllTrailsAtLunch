@@ -165,15 +165,12 @@ extension MapDisplayController{
                 
                 //TODO: Reimplement as abstracted class
 //                let placePoint: MapPoint = MapPoint(name: restaurant.name, address: "", coordinate: coordinate)
-                
-                let annotation = MKPointAnnotation()
-                annotation.title = restaurant.name
-                
-                annotation.coordinate = CLLocationCoordinate2D(latitude: restaurant.lat, longitude: restaurant.lng)
             
+                let restAnnotation = RestaurantAnnotation(coordinate: coordinate, restaurant: restaurant)
+                
                 
                 DispatchQueue.main.async {
-                    self.mapView.addAnnotation(annotation as MKAnnotation)
+                    self.mapView.addAnnotation(restAnnotation as MKAnnotation)
                 }
             }
         }
@@ -181,6 +178,10 @@ extension MapDisplayController{
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "MapPoint"
+        
+        if annotation is MKUserLocation {
+            return nil
+        }
         
         var annotationView: MKAnnotationView
         
@@ -198,18 +199,30 @@ extension MapDisplayController{
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+
+//        calloutView.translatesAutoresizingMaskIntoConstraints = true
+//        calloutView.backgroundColor = .white
+//        view.addSubview(calloutView)
+//
+//        NSLayoutConstraint.activate([
+//                calloutView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+//                calloutView.widthAnchor.constraint(equalToConstant: 60),
+//                calloutView.heightAnchor.constraint(equalToConstant: 30),
+//                calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.calloutOffset.x)
+//            ])
+        
+        if view.annotation is MKUserLocation {
+            return
+        }
+        
         let calloutView = RestaurantCallOutView()
-
-        calloutView.translatesAutoresizingMaskIntoConstraints = true
-        calloutView.backgroundColor = .white
+        let annotation = view.annotation as! RestaurantAnnotation
+        
+        calloutView.restaurantName.text = annotation.restaurant.name
+        calloutView.center = CGPoint(x: view.bounds.size.width / 2, y: -calloutView.bounds.size.height*0.52)
         view.addSubview(calloutView)
-
-        NSLayoutConstraint.activate([
-                calloutView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-                calloutView.widthAnchor.constraint(equalToConstant: 60),
-                calloutView.heightAnchor.constraint(equalToConstant: 30),
-                calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.calloutOffset.x)
-            ])
+        mapView.setCenter((view.annotation?.coordinate)!, animated: true)
+        
     }
 }
 

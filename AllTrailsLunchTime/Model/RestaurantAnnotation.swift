@@ -7,61 +7,14 @@
 
 import MapKit
 
-class RestaurantAnnotation: MKAnnotation {
+class RestaurantAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
-    var description: String
     let restaurant: Restaurant
+    let title: String!
     
-    init(restaurant: Restaurant) {
+    init(coordinate: CLLocationCoordinate2D, restaurant: Restaurant) {
+        self.coordinate = coordinate
         self.restaurant = restaurant
+        title = restaurant.name
     }
-    
-    func isEqual(_ object: Any?) -> Bool {
-        
-    }
-    
-    var hash: Int
-    
-    var superclass: AnyClass?
-    
-    func `self`() -> Self {
-        
-    }
-    
-    func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>! {
-        
-    }
-    
-    func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>! {
-        
-    }
-    
-    func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>! {
-        
-    }
-    
-    func isProxy() -> Bool {
-        
-    }
-    
-    func isKind(of aClass: AnyClass) -> Bool {
-        
-    }
-    
-    func isMember(of aClass: AnyClass) -> Bool {
-        
-    }
-    
-    func conforms(to aProtocol: Protocol) -> Bool {
-        
-    }
-    
-    func responds(to aSelector: Selector!) -> Bool {
-        
-    }
-    
-    
-    
-    
-    
 }

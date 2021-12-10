@@ -9,18 +9,12 @@ import Foundation
 
 struct Restaurant {
     //MARK: - Properties
-//    let address: String?
-//    let formatted_address: String?
-//    let formatted_phone_number: String?
-//    let geometry: String?
-//    let icon: String?
 //    let name: String?
-////    let photos: Array<String>
-//    let price_level: Int?
-//    let rating: Int?
+    let photo_reference: String?
+    let price_level: Int?
+    let rating: Int?
+    let user_ratings_total: Int?
 //    let open_now: Bool?
-//    let url: String?
-//    let website: String?
     let name: String
 //    let types:Array<String>
     let lat: Double
@@ -34,16 +28,24 @@ struct Restaurant {
         let lat = location["lat"] as! Double
         let lng = location["lng"] as! Double
         
-//        let location: [String: Any] = dictionary["location"] as! [String : Any]
-//        let lat = location["lat"] as! Double
-//        let lng = location["lng"] as! Double
-        
-        
-//        self.formatted_address = dictionary["formatted_address"] as? String ?? ""
-//        self.website = dictionary["website"] as? String ?? ""
+
         self.name = dictionary["name"] as? String ?? ""
         self.lat = lat
         self.lng = lng
+        
+        self.price_level = dictionary["price_level"] as? Int ?? 10
+        self.rating = dictionary["rating"] as? Int ?? 0
+        
+        
+        let photosArray = dictionary["photos"] as? NSArray
+        let photosDictionary = photosArray?[0] as? NSDictionary
+        self.photo_reference = photosDictionary?["photo_reference"] as? String ?? "COULD NOT GET PHOTO"
+        
+        
+        self.user_ratings_total = dictionary["user_ratings_total"] as? Int ?? 0
+        
+        
+        
     }
 }
 

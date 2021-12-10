@@ -7,7 +7,9 @@
 
 import UIKit
 
-class TableDisplayController: UITableViewController {
+class TableDisplayController: UITableViewController, UISearchControllerDelegate {
+    
+    
    //MARK: Properties
     lazy var restaurants: [Restaurant] = []
     
@@ -24,6 +26,15 @@ class TableDisplayController: UITableViewController {
         button.addTarget(self, action: #selector(showMapView), for: .touchUpInside)
         return button
     }()
+    
+    var filteredRestaurants: [Restaurant] = []
+    let searchController = UISearchController(searchResultsController: nil)
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    var isFiltering: Bool {
+      return searchController.isActive && !isSearchBarEmpty
+    }
     
     //MARK: Lifecycle
     override func viewDidLoad() {
@@ -45,6 +56,13 @@ class TableDisplayController: UITableViewController {
         view.addSubview(mapButton)
         mapButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
         mapButton.centerX(inView: self.view)
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search for a restaurant"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        navigationController?.navigationBar.addSubview(searchController.searchBar)
     }
     
     //MARK: Actions
@@ -58,12 +76,24 @@ class TableDisplayController: UITableViewController {
 extension TableDisplayController {
     static let restaurantCellIdentifier = "restaurantCell"
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return restaurants.count
+        
+        if (self.isFiltering) {
+            return self.filteredRestaurants.count
+        } else {
+            return restaurants.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell") as? RestaurantTableViewCell {
-            let restaurant = restaurants[indexPath.row] as Restaurant
+            
+            let restaurant: Restaurant
+            if (isFiltering) {
+                restaurant = filteredRestaurants[indexPath.row] as Restaurant
+            } else {
+                restaurant = restaurants[indexPath.row] as Restaurant
+            }
+            
             cell.restaurantNameLabel.text = restaurant.name
             cell.ratingsTotalLabel.text = "(\(restaurant.user_ratings_total))"
             
@@ -119,4 +149,21 @@ extension TableDisplayController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
+    
+    //MARK: - Search
+    func filterContentForSearchText(_ searchText: String) {
+      filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
+        return restaurant.name.lowercased().contains(searchText.lowercased())
+      }
+        
+        self.tableView.reloadData()
+    }
 }
+
+extension TableDisplayController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+      }
+}
+

@@ -167,6 +167,7 @@ extension MapDisplayController{
                 
                 let annotation = MKPointAnnotation()
                 annotation.title = restaurant.name
+                
                 annotation.coordinate = CLLocationCoordinate2D(latitude: restaurant.lat, longitude: restaurant.lng)
             
                 

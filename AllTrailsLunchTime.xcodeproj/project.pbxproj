@@ -21,6 +21,7 @@
 		1F0997212761344C00967EB1 /* MapPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0997202761344C00967EB1 /* MapPoint.swift */; };
 		1F0997232761441700967EB1 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0997222761441700967EB1 /* CustomAnnotationView.swift */; };
 		1F0997292761A77E00967EB1 /* TableDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0997282761A77E00967EB1 /* TableDisplayController.swift */; };
+		1F09972D2762F8E100967EB1 /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F09972C2762F8E100967EB1 /* RestaurantTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		1F0997202761344C00967EB1 /* MapPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPoint.swift; sourceTree = "<group>"; };
 		1F0997222761441700967EB1 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		1F0997282761A77E00967EB1 /* TableDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDisplayController.swift; sourceTree = "<group>"; };
+		1F09972C2762F8E100967EB1 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				1F0997222761441700967EB1 /* CustomAnnotationView.swift */,
+				1F09972C2762F8E100967EB1 /* RestaurantTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				1F0996FE275EF58600967EB1 /* ViewController.swift in Sources */,
 				1F099715275EF5DA00967EB1 /* MapDisplayController.swift in Sources */,
 				1F09971F2761050C00967EB1 /* Extensions.swift in Sources */,
+				1F09972D2762F8E100967EB1 /* RestaurantTableViewCell.swift in Sources */,
 				1F099719275FF68D00967EB1 /* Restaurant.swift in Sources */,
 				1F099717275F05CC00967EB1 /* PlacesService.swift in Sources */,
 				1F0997232761441700967EB1 /* CustomAnnotationView.swift in Sources */,

@@ -31,7 +31,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
     var currentCenter = CLLocationCoordinate2D()
     var currentDistance: Int = 0
     
-//    var restaurants: Array?
+    
     
     //MARK: - Lifecycle
     override func viewDidLoad() {

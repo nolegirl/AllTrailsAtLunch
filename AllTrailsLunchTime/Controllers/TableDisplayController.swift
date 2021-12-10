@@ -34,6 +34,10 @@ class TableDisplayController: UITableViewController {
         configureUI()
     }
     
+    deinit {
+        print("deinit \(self)")
+    }
+    
     func configureUI() {
         self.view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         tableView.separatorColor = .clear

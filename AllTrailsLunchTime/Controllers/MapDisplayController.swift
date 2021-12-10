@@ -53,10 +53,32 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         tableview.delegate = self
         tableview.dataSource = self
         mapView.delegate = self
+        
+        determineCurrentLocation()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+//        view.addSubview(tableview)
+//        tableview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        
+//        let restaurantCell = UINib(nibName: "RestaurantTableViewCell",
+//                                      bundle: nil)
+//            self.tableview.register(restaurantCell,
+//                                    forCellReuseIdentifier: "RestaurantTableViewCell")
+//        tableview.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
+//        tableview.separatorColor = .clear
+        
+        
+    }
+    
+    func configureUI(){
         view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
+        
+        view.addSubview(tableButton)
+        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
+        tableButton.centerX(inView: self.view)
         
         let leftMargin:CGFloat = 10
         let topMargin:CGFloat = 60
@@ -70,21 +92,15 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         mapView.register(RestaurantCallOutView.self, forAnnotationViewWithReuseIdentifier: "RestaurantCallout")
 
         view.addSubview(mapView)
-        determineCurrentLocation()
-        
-//        view.addSubview(tableview)
-//        tableview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
-        
-//        let restaurantCell = UINib(nibName: "RestaurantTableViewCell",
-//                                      bundle: nil)
-//            self.tableview.register(restaurantCell,
-//                                    forCellReuseIdentifier: "RestaurantTableViewCell")
-//        tableview.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
-//        tableview.separatorColor = .clear
         
         view.addSubview(tableButton)
         tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
         tableButton.centerX(inView: self.view)
+    
+    }
+    
+    deinit {
+        print("deinit \(self)")
     }
     
     //MARK: - Actions
@@ -92,7 +108,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, UITable
         let controller = TableDisplayController()
         controller.restaurants = self.restaurants
         
-        controller.modalPresentationStyle = .fullScreen
+//        controller.modalPresentationStyle = .fullScreen
+//        self.navigationController?.present(controller, animated: false, completion: nil)
         self.navigationController?.pushViewController(controller, animated: false)
     }
     

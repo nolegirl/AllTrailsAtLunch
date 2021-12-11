@@ -43,6 +43,19 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         return bar
     }()
     
+    let filterButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.text = "Filter"
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.titleLabel?.textColor = .lightGray
+        button.layer.borderWidth = 0.5
+        button.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.alpha = 0.5
+        
+        return button
+    }()
+    
     lazy var tableButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
@@ -115,8 +128,8 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         magnifyerImageView.contentMode = .scaleAspectFit
         
         let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
-        
-        
+        stackview.layer.borderColor = UIColor.lightGray.cgColor
+        stackview.layer.borderWidth = 0.5
         
 //        definesPresentationContext = true
         self.headerView.addSubview(stackview)

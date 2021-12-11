@@ -103,7 +103,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         view.addSubview(mapView)
         
         view.addSubview(tableButton)
-        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
+        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20, width: 100, height: 44)
         tableButton.centerX(inView: self.view)
         
         self.view.addSubview(headerView)

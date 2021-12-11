@@ -68,15 +68,14 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
     }
     
     func configureUI() {
-        self.view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
+        self.tableView.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         tableView.separatorColor = .clear
         view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         view.addSubview(mapButton)
-        mapButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
+        mapButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20, width: 100, height: 44)
         mapButton.centerX(inView: self.view)
 
         self.tableView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
-
     }
     
     //MARK: Actions
@@ -178,6 +177,7 @@ extension TableDisplayController {
         headerView.addSubview(logoView)
         logoView.anchor(
             top: headerView.topAnchor,
+            paddingTop: -2,
             width: self.view.frame.size.width,
             height:80)
         logoView.centerX(inView: headerView)
@@ -203,7 +203,7 @@ extension TableDisplayController {
                             bottom: headerView.bottomAnchor,
                             paddingTop: -8,
                             paddingLeft: 20,
-                            paddingBottom: 8,
+                            paddingBottom: 2,
                             paddingRight: 20,
                             width: 60,
                             height: 44)
@@ -215,7 +215,7 @@ extension TableDisplayController {
                          right: headerView.rightAnchor,
                          paddingTop: -8,
                          paddingLeft: 20,
-                         paddingBottom: 16,
+                         paddingBottom: 2,
                          paddingRight: 20,
                          height: 30)
         

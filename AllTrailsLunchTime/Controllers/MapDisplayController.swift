@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchControllerDelegate {
+class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchControllerDelegate, UISearchBarDelegate {
     
     
     //MARK: - Properties
@@ -34,11 +34,15 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     var filteredRestaurants: [Restaurant] = []
     let searchController = UISearchController(searchResultsController: nil)
     var isSearchBarEmpty: Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+        return self.searchBar.text?.isEmpty ?? true
     }
-    var isFiltering: Bool {
-      return searchController.isActive && !isSearchBarEmpty
-    }
+    
+    var isFiltering: Bool = false
+//    {
+//        return self.searchBar.text?.isEmpty ?? false
+//    }
+    
+    let searchBar = UISearchBar()
     
     lazy var tableButton: UIButton = {
         let button = UIButton()
@@ -94,19 +98,24 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         self.view.addSubview(headerView)
         headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 200)
         
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search for a restaurant"
-        searchController.extendedLayoutIncludesOpaqueBars = true
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for a restaurant"
+        
+//        searchController.searchResultsUpdater = self
+//        searchController.obscuresBackgroundDuringPresentation = false
+//        searchController.searchBar.placeholder = "Search for a restaurant"
+//        searchController.extendedLayoutIncludesOpaqueBars = true
+//        searchController.delegate = self
         definesPresentationContext = true
-        self.headerView.addSubview(searchController.searchBar)
-        searchController.searchBar.anchor(left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 40)
+        self.headerView.addSubview(searchBar)
+        searchBar.anchor(top: self.view.topAnchor, left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 40)
+        searchBar.centerX(inView: self.headerView)
         
         let logo = UIImage(named: "headerImage")
         let logoView = UIImageView(image: logo)
         logoView.contentMode = .scaleAspectFit
         headerView.addSubview(logoView)
-        logoView.anchor(top: headerView.topAnchor, bottom: searchController.searchBar.topAnchor, paddingTop: 8, width: self.view.frame.size.width, height:80)
+        logoView.anchor(top: headerView.topAnchor, paddingTop: 8, width: self.view.frame.size.width, height:80)
         logoView.centerX(inView: self.headerView)
     }
     
@@ -126,12 +135,14 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     
     //MARK: - Search
     func filterContentForSearchText(_ searchText: String) {
-      filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
+        isFiltering = searchBar.text?.isEmpty ?? false ? false : true
+        
+    
+        filteredRestaurants = self.restaurants.filter { (restaurant: Restaurant) -> Bool in
         return restaurant.name.lowercased().contains(searchText.lowercased())
       }
         self.showRestaurants(data: filteredRestaurants as NSArray)
     }
-
 }
 
 //MARK: CLLocationManagerDelegate
@@ -168,9 +179,7 @@ extension MapDisplayController {
         
         PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude) { restaurantsArray in
             self.restaurants = restaurantsArray
-           
         }
-            
     }
         
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
@@ -183,6 +192,18 @@ extension MapDisplayController {
                 locationManager.requestLocation()
             }
         }
+    
+    //MARK: Search
+    //MARK: Search
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterContentForSearchText(searchBar.text!)
+//        if ((searchBar.text?.isEmpty) != nil) {
+//            self.isFiltering = false
+//        } else {
+//            self.isFiltering = true
+//        }
+    }
+    
 }
 
 //MARK: MapKit
@@ -198,12 +219,10 @@ extension MapDisplayController{
     }
     
     func showRestaurants(data: NSArray) {
-        searchController.searchBar.isUserInteractionEnabled = true
         for annotation:MKAnnotation in mapView.annotations {
             
                 mapView.removeAnnotation(annotation)
             }
-           
             
             let currentRestaurants = self.isFiltering ? filteredRestaurants : restaurants
             
@@ -273,9 +292,6 @@ extension MapDisplayController{
         mapView.setCenter((view.annotation?.coordinate)!, animated: true)
         
     }
-    
-    //MARK: Search
-    
 }
 
 extension MapDisplayController: UISearchResultsUpdating {

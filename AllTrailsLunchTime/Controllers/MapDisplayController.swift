@@ -45,8 +45,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     
     let filterButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.text = "Filter"
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 11)
         button.titleLabel?.textColor = .lightGray
         button.layer.borderWidth = 0.5
         button.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
@@ -131,12 +130,14 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         stackview.layer.borderColor = UIColor.lightGray.cgColor
         stackview.layer.borderWidth = 0.5
         
-//        definesPresentationContext = true
+        self.headerView.addSubview(filterButton)
+        filterButton
+            .setTitle("Filter", for: .normal)
+        filterButton.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor, bottom: headerView.bottomAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 60, height: 44)
+        
         self.headerView.addSubview(stackview)
-        stackview.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 30)
-        stackview.centerX(inView: self.headerView)
-        
-        
+        stackview.anchor(top: logoView.bottomAnchor,left: filterButton.rightAnchor, bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, height: 30)
+ 
     }
     
     override func viewDidLayoutSubviews() {

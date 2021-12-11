@@ -9,8 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchControllerDelegate {
-    
+class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchControllerDelegate, UISearchBarDelegate {
     
     //MARK: - Properties
     var locationManager:CLLocationManager!
@@ -25,20 +24,36 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
                 self.tableview.reloadData()
                 self.showRestaurants(data: self.restaurants as NSArray)
             }
-            
         }
     }
     var currentCenter = CLLocationCoordinate2D()
     var currentDistance: Int = 0
     
     var filteredRestaurants: [Restaurant] = []
-    let searchController = UISearchController(searchResultsController: nil)
     var isSearchBarEmpty: Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+        return self.searchBar.text?.isEmpty ?? true
     }
-    var isFiltering: Bool {
-      return searchController.isActive && !isSearchBarEmpty
-    }
+    
+    var isFiltering: Bool = false
+    let searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        let emptyImage = UIImage()
+        bar.setImage(emptyImage, for: .search, state: .normal)
+        return bar
+    }()
+    
+    let filterButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 11)
+        button.titleLabel?.textColor = .lightGray
+        button.layer.borderWidth = 0.5
+        button.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.alpha = 0.5
+        
+        return button
+    }()
     
     lazy var tableButton: UIButton = {
         let button = UIButton()
@@ -54,6 +69,12 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         return button
     }()
     
+    let headerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        return view
+    }()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,13 +85,9 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     }
     
     func configureUI(){
-//        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         
         view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
-        
-        view.addSubview(tableButton)
-        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
-        tableButton.centerX(inView: self.view)
         
         let leftMargin:CGFloat = 10
         let topMargin:CGFloat = 60
@@ -86,17 +103,45 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         view.addSubview(mapView)
         
         view.addSubview(tableButton)
-        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
+        tableButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20, width: 100, height: 44)
         tableButton.centerX(inView: self.view)
         
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search for a restaurant"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-        searchController.searchBar.isUserInteractionEnabled = false
+        self.view.addSubview(headerView)
+        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 160)
+        
+        let logo = UIImage(named: "headerImage")
+        let logoView = UIImageView(image: logo)
+        logoView.contentMode = .scaleAspectFit
+        headerView.addSubview(logoView)
+        logoView.anchor(top: headerView.topAnchor, paddingTop: 40, width: self.view.frame.size.width, height:80)
+        logoView.centerX(inView: self.headerView)
+        
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for a restaurant"
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
+        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
+        
+        let magnifyer = UIImage(named: "searchIcon")
+        let magnifyerImageView = UIImageView(image: magnifyer)
+        magnifyerImageView.contentMode = .scaleAspectFit
+        
+        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
+        stackview.layer.borderColor = UIColor.lightGray.cgColor
+        stackview.layer.borderWidth = 0.5
+        
+        self.headerView.addSubview(filterButton)
+        filterButton.setTitle("Filter", for: .normal)
+        filterButton.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor, bottom: headerView.bottomAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 60, height: 44)
+        
+        self.headerView.addSubview(stackview)
+        stackview.anchor(top: logoView.bottomAnchor,left: filterButton.rightAnchor, bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, height: 30)
+ 
     }
     
+    override func viewDidLayoutSubviews() {
+        
+    }
     deinit {
         print("deinit \(self)")
     }
@@ -110,12 +155,13 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     
     //MARK: - Search
     func filterContentForSearchText(_ searchText: String) {
-      filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
+        isFiltering = searchBar.text?.isEmpty ?? false ? false : true
+        
+        filteredRestaurants = self.restaurants.filter { (restaurant: Restaurant) -> Bool in
         return restaurant.name.lowercased().contains(searchText.lowercased())
       }
         self.showRestaurants(data: filteredRestaurants as NSArray)
     }
-
 }
 
 //MARK: CLLocationManagerDelegate
@@ -152,9 +198,7 @@ extension MapDisplayController {
         
         PlacesService.getNearbyRestaurants(latitude: latitude, longitude: longitude) { restaurantsArray in
             self.restaurants = restaurantsArray
-           
         }
-            
     }
         
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
@@ -167,6 +211,18 @@ extension MapDisplayController {
                 locationManager.requestLocation()
             }
         }
+    
+    //MARK: Search
+    //MARK: Search
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterContentForSearchText(searchBar.text!)
+//        if ((searchBar.text?.isEmpty) != nil) {
+//            self.isFiltering = false
+//        } else {
+//            self.isFiltering = true
+//        }
+    }
+    
 }
 
 //MARK: MapKit
@@ -182,12 +238,10 @@ extension MapDisplayController{
     }
     
     func showRestaurants(data: NSArray) {
-        searchController.searchBar.isUserInteractionEnabled = true
         for annotation:MKAnnotation in mapView.annotations {
             
                 mapView.removeAnnotation(annotation)
             }
-           
             
             let currentRestaurants = self.isFiltering ? filteredRestaurants : restaurants
             
@@ -232,17 +286,8 @@ extension MapDisplayController{
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-
-//        calloutView.translatesAutoresizingMaskIntoConstraints = true
-//        calloutView.backgroundColor = .white
-//        view.addSubview(calloutView)
-//
-//        NSLayoutConstraint.activate([
-//                calloutView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-//                calloutView.widthAnchor.constraint(equalToConstant: 60),
-//                calloutView.heightAnchor.constraint(equalToConstant: 30),
-//                calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.calloutOffset.x)
-//            ])
+        
+        view.image = #imageLiteral(resourceName: "pin-active")
         
         if view.annotation is MKUserLocation {
             return
@@ -255,11 +300,11 @@ extension MapDisplayController{
         calloutView.center = CGPoint(x: view.bounds.size.width / 2, y: -calloutView.bounds.size.height*0.52)
         view.addSubview(calloutView)
         mapView.setCenter((view.annotation?.coordinate)!, animated: true)
-        
     }
     
-    //MARK: Search
-    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        view.image = #imageLiteral(resourceName: "pin-inactive")
+    }
 }
 
 extension MapDisplayController: UISearchResultsUpdating {

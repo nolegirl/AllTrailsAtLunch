@@ -30,13 +30,18 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     var currentDistance: Int = 0
     
     var filteredRestaurants: [Restaurant] = []
-    let searchController = UISearchController(searchResultsController: nil)
     var isSearchBarEmpty: Bool {
         return self.searchBar.text?.isEmpty ?? true
     }
     
     var isFiltering: Bool = false
-    let searchBar = UISearchBar()
+    let searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        let emptyImage = UIImage()
+        bar.setImage(emptyImage, for: .search, state: .normal)
+        return bar
+    }()
     
     lazy var tableButton: UIButton = {
         let button = UIButton()
@@ -101,11 +106,22 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         
         searchBar.delegate = self
         searchBar.placeholder = "Search for a restaurant"
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
+        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
+        
+        let magnifyer = UIImage(named: "searchIcon")
+        let magnifyerImageView = UIImageView(image: magnifyer)
+        magnifyerImageView.contentMode = .scaleAspectFit
+        
+        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
+        
+        
         
 //        definesPresentationContext = true
-        self.headerView.addSubview(searchBar)
-        searchBar.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 30)
-        searchBar.centerX(inView: self.headerView)
+        self.headerView.addSubview(stackview)
+        stackview.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 30)
+        stackview.centerX(inView: self.headerView)
         
         
     }

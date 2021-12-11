@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableDisplayController: UITableViewController, UISearchControllerDelegate {
+class TableDisplayController: UITableViewController, UISearchControllerDelegate, UISearchBarDelegate {
     
     
    //MARK: Properties
@@ -27,14 +27,32 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate 
         return button
     }()
     
+    let searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        let emptyImage = UIImage()
+        bar.setImage(emptyImage, for: .search, state: .normal)
+        return bar
+    }()
+    
+    let filterButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 11)
+        button.titleLabel?.textColor = .lightGray
+        button.layer.borderWidth = 0.5
+        button.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.alpha = 0.5
+        
+        return button
+    }()
+    
     var filteredRestaurants: [Restaurant] = []
     let searchController = UISearchController(searchResultsController: nil)
     var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
-    var isFiltering: Bool {
-      return searchController.isActive && !isSearchBarEmpty
-    }
+    var isFiltering: Bool = false
     
     //MARK: Lifecycle
     override func viewDidLoad() {
@@ -52,17 +70,13 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate 
     func configureUI() {
         self.view.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         tableView.separatorColor = .clear
-        
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         view.addSubview(mapButton)
         mapButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40, width: 100, height: 44)
         mapButton.centerX(inView: self.view)
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search for a restaurant"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-        navigationController?.navigationBar.addSubview(searchController.searchBar)
+
+        self.tableView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+
     }
     
     //MARK: Actions
@@ -146,17 +160,80 @@ extension TableDisplayController {
         return UITableViewCell()
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 110
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 100
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140)
+        
+        let logo = UIImage(named: "headerImage")
+        let logoView = UIImageView(image: logo)
+        logoView.contentMode = .scaleAspectFit
+        headerView.addSubview(logoView)
+        logoView.anchor(
+            top: headerView.topAnchor,
+            width: self.view.frame.size.width,
+            height:80)
+        logoView.centerX(inView: headerView)
+        
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for a restaurant"
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
+        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
+        
+        let magnifyer = UIImage(named: "searchIcon")
+        let magnifyerImageView = UIImageView(image: magnifyer)
+        magnifyerImageView.contentMode = .scaleAspectFit
+        
+        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
+        stackview.layer.borderColor = UIColor.lightGray.cgColor
+        stackview.layer.borderWidth = 0.5
+        
+        headerView.addSubview(filterButton)
+        filterButton.setTitle("Filter", for: .normal)
+        filterButton.anchor(top: logoView.bottomAnchor,
+                            left: headerView.leftAnchor,
+                            bottom: headerView.bottomAnchor,
+                            paddingTop: -8,
+                            paddingLeft: 20,
+                            paddingBottom: 8,
+                            paddingRight: 20,
+                            width: 60,
+                            height: 44)
+        
+        headerView.addSubview(stackview)
+        stackview.anchor(top: logoView.bottomAnchor,
+                         left: filterButton.rightAnchor,
+                         bottom: headerView.bottomAnchor,
+                         right: headerView.rightAnchor,
+                         paddingTop: -8,
+                         paddingLeft: 20,
+                         paddingBottom: 16,
+                         paddingRight: 20,
+                         height: 30)
+        
+        return headerView
     }
     
     //MARK: - Search
     func filterContentForSearchText(_ searchText: String) {
+        isFiltering = searchBar.text?.isEmpty ?? false ? false : true
       filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
         return restaurant.name.lowercased().contains(searchText.lowercased())
       }
-        
         self.tableView.reloadData()
+    }
+    
+    //MARK: - Search
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterContentForSearchText(searchBar.text!)
     }
 }
 

@@ -131,8 +131,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         stackview.layer.borderWidth = 0.5
         
         self.headerView.addSubview(filterButton)
-        filterButton
-            .setTitle("Filter", for: .normal)
+        filterButton.setTitle("Filter", for: .normal)
         filterButton.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor, bottom: headerView.bottomAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 60, height: 44)
         
         self.headerView.addSubview(stackview)

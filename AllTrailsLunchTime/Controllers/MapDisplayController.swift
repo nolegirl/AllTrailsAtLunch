@@ -11,7 +11,6 @@ import CoreLocation
 
 class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchControllerDelegate, UISearchBarDelegate {
     
-    
     //MARK: - Properties
     var locationManager:CLLocationManager!
     let mapView = MKMapView()
@@ -25,7 +24,6 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
                 self.tableview.reloadData()
                 self.showRestaurants(data: self.restaurants as NSArray)
             }
-            
         }
     }
     var currentCenter = CLLocationCoordinate2D()
@@ -38,10 +36,6 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     }
     
     var isFiltering: Bool = false
-//    {
-//        return self.searchBar.text?.isEmpty ?? false
-//    }
-    
     let searchBar = UISearchBar()
     
     lazy var tableButton: UIButton = {
@@ -96,27 +90,24 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         tableButton.centerX(inView: self.view)
         
         self.view.addSubview(headerView)
-        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 200)
-        
-        searchBar.delegate = self
-        searchBar.placeholder = "Search for a restaurant"
-        
-//        searchController.searchResultsUpdater = self
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.searchBar.placeholder = "Search for a restaurant"
-//        searchController.extendedLayoutIncludesOpaqueBars = true
-//        searchController.delegate = self
-        definesPresentationContext = true
-        self.headerView.addSubview(searchBar)
-        searchBar.anchor(top: self.view.topAnchor, left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 40)
-        searchBar.centerX(inView: self.headerView)
+        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 160)
         
         let logo = UIImage(named: "headerImage")
         let logoView = UIImageView(image: logo)
         logoView.contentMode = .scaleAspectFit
         headerView.addSubview(logoView)
-        logoView.anchor(top: headerView.topAnchor, paddingTop: 8, width: self.view.frame.size.width, height:80)
+        logoView.anchor(top: headerView.topAnchor, paddingTop: 40, width: self.view.frame.size.width, height:80)
         logoView.centerX(inView: self.headerView)
+        
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for a restaurant"
+        
+//        definesPresentationContext = true
+        self.headerView.addSubview(searchBar)
+        searchBar.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor,bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 200, height: 30)
+        searchBar.centerX(inView: self.headerView)
+        
+        
     }
     
     override func viewDidLayoutSubviews() {

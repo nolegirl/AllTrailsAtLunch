@@ -26,6 +26,7 @@ class RestaurantCallOutView: UIView {
     
    let starImageView: UIImageView = {
         let imageView = UIImageView()
+    imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -61,7 +62,7 @@ class RestaurantCallOutView: UIView {
         restaurantName.anchor(top: topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8)
         
         addSubview(starImageView)
-        starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 8, paddingRight: 8)
+        starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 8, paddingRight: 8, height: 20)
         
         let stack = UIStackView(arrangedSubviews: [priceLabel, subtitleLabel])
         addSubview(stack)

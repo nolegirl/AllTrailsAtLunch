@@ -320,6 +320,13 @@ extension MapDisplayController{
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         view.image = #imageLiteral(resourceName: "pin-inactive")
+        for view in self.restaurantDetailView.subviews {
+            
+                view.removeFromSuperview()
+            
+            
+        }
+        restaurantDetailView.removeFromSuperview()
     }
     
     //MARK: Helpers

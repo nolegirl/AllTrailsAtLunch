@@ -77,6 +77,9 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
     
     let restaurantDetailView: UIView = {
         let view = UIView()
+        let restaurantCallout = RestaurantCallOutView()
+        view.addSubview(restaurantCallout)
+        restaurantCallout.frame = view.frame
         view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         view.frame = CGRect(x: 0, y: 0, width: 300, height: 80)
         return view
@@ -301,9 +304,16 @@ extension MapDisplayController{
         let calloutView = RestaurantCallOutView()
 
         let annotation = view.annotation as! RestaurantAnnotation
-        calloutView.restaurantName.text = annotation.restaurant.name
-        restaurantDetailView.center = CGPoint(x: mapView.center.x, y: mapView.center.y - 130)
+        let restaurant = annotation.restaurant
+    
+        restaurantDetailView.center = CGPoint(x: mapView.center.x, y: mapView.center.y - 150)
+        calloutView.restaurantName.text = restaurant.name
+        calloutView.priceLabel.text = calculatePriceLabel(price: restaurant.price_level)
+        calloutView.starImageView.image = calculateStarLevel(stars: restaurant.rating)
+        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
+        calloutView.reviewNumberLabel.text = "(\(restaurant.user_ratings_total)"
         restaurantDetailView.addSubview(calloutView)
+        calloutView.anchor(top: restaurantDetailView.topAnchor, left: restaurantDetailView.leftAnchor, bottom: restaurantDetailView.bottomAnchor, right: restaurantDetailView.rightAnchor)
         mapView.addSubview(restaurantDetailView)
         
     }
@@ -311,6 +321,109 @@ extension MapDisplayController{
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         view.image = #imageLiteral(resourceName: "pin-inactive")
     }
+    
+    //MARK: Helpers
+    func calculatePriceLabel(price: Int) -> String {
+        switch price {
+            case 1:
+                return "$ •"
+            case 2:
+                return "$$ •"
+            case 3:
+                return "$$$ •"
+            case 4:
+                return "$$$$ •"
+            default:
+                return "$ •"
+            }
+                return ""
+        }
+    
+    func calculateStarLevel(stars: Int) -> UIImage {
+        let image = UIImage()
+        var rating = 0
+        if stars == 0 {
+            rating = 1
+        } else {
+            rating = stars
+        }
+//        switch restaurant.rating {
+//                case 0:
+//                    image = #imageLiteral(resourceName: "1-star")
+//                    break
+//                case 1:
+//                    image = #imageLiteral(resourceName: "1-star")
+//                    break
+//                case 2:
+//                    image = #imageLiteral(resourceName: "2-star")
+//                    break
+//                case 3:
+//                    image = #imageLiteral(resourceName: "3-star")
+//                    break
+//                case 4:
+//                    image = #imageLiteral(resourceName: "4-star")
+//                    break
+//                case 5:
+//                    image = #imageLiteral(resourceName: "5-star")
+//                    break
+//                default:
+//                    image = #imageLiteral(resourceName: "1-star")
+//                }
+        return UIImage(named: "\(rating)-star") ?? UIImage()
+    }
+    
+//    func configureCustomCalloutView(restaurant: Restaurant) -> RestaurantCallOutView {
+//        let restaurant: Restaurant
+//
+//        cell.restaurantNameLabel.text = restaurant.name
+//        cell.ratingsTotalLabel.text = "(\(restaurant.user_ratings_total))"
+//
+//        var rating = 0
+//        if restaurant.rating == 0 {
+//            rating = 1
+//        } else {
+//            rating = restaurant.rating
+//        }
+//        switch restaurant.rating {
+//        case 0:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
+//            break
+//        case 1:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
+//            break
+//        case 2:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "2-star")
+//            break
+//        case 3:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "3-star")
+//            break
+//        case 4:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "4-star")
+//            break
+//        case 5:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "5-star")
+//            break
+//        default:
+//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
+//        }
+//
+//
+//        cell.starRatingsImageView.image = UIImage(named: "\(rating)-star")
+//        switch restaurant.price_level {
+//        case 1:
+//            cell.priceLabel.text = "$ •"
+//        case 2:
+//            cell.priceLabel.text = "$$ •"
+//        case 3:
+//            cell.priceLabel.text = "$$$ •"
+//        case 4:
+//            cell.priceLabel.text = "$$$$ •"
+//        default:
+//            cell.priceLabel.text = "$ •"
+//        }
+//            return cell
+//        }
+//    }
 }
 
 extension MapDisplayController: UISearchResultsUpdating {

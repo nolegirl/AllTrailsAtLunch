@@ -30,8 +30,8 @@
             filePath = "AllTrailsLunchTime/Controllers/MapDisplayController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "filterContentForSearchText(_:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -13,13 +13,12 @@ class RestaurantCallOutView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        //TODO: Set up restaurant image
+        imageView.backgroundColor = .purple
         return imageView
     }()
     
     let restaurantName: UILabel = {
         let nameLabel = UILabel()
-        //TODO: Set up restaurant name
         nameLabel.font = UIFont.systemFont(ofSize: 16)
         return nameLabel
     }()
@@ -56,17 +55,27 @@ class RestaurantCallOutView: UIView {
         super.init(frame: frame)
         
         addSubview(restaurantImageView)
-        restaurantImageView.anchor(top: topAnchor, left: restaurantImageView.rightAnchor, bottom: bottomAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: frame.width/3, height: frame.size.height-16)
+        restaurantImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, width: 80)
         
+    
         addSubview(restaurantName)
-        restaurantName.anchor(top: topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8)
-        
-        addSubview(starImageView)
-        starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 8, paddingRight: 8, height: 20)
+        restaurantName.anchor(top: topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, height: 20)
         
         let stack = UIStackView(arrangedSubviews: [priceLabel, subtitleLabel])
         addSubview(stack)
-        stack.anchor(top: starImageView.bottomAnchor, left: restaurantImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        stack.anchor(left: restaurantImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 20)
+        
+        addSubview(starImageView)
+        starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, bottom: stack.topAnchor, paddingTop: -8, paddingLeft: 8, width: 120, height: 40)
+        
+        addSubview(reviewNumberLabel)
+        reviewNumberLabel.anchor(top: restaurantName.bottomAnchor, left: starImageView.rightAnchor, bottom: stack.topAnchor, paddingTop: 8, paddingLeft: 8, height: 20)
+        reviewNumberLabel.centerY(inView: starImageView)
+        
+        
+        
+        
+        
     }
     
     required init?(coder: NSCoder) {

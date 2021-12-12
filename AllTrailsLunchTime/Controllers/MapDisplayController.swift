@@ -81,7 +81,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         view.addSubview(restaurantCallout)
         restaurantCallout.frame = view.frame
         view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        view.frame = CGRect(x: 0, y: 0, width: 300, height: 80)
+        view.frame = CGRect(x: 0, y: 0, width: 300, height: 100)
         return view
     }()
     
@@ -310,7 +310,7 @@ extension MapDisplayController{
         calloutView.restaurantName.text = restaurant.name
         calloutView.priceLabel.text = calculatePriceLabel(price: restaurant.price_level)
         calloutView.starImageView.image = calculateStarLevel(stars: restaurant.rating)
-        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
+//        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
         calloutView.reviewNumberLabel.text = "(\(restaurant.user_ratings_total)"
         restaurantDetailView.addSubview(calloutView)
         calloutView.anchor(top: restaurantDetailView.topAnchor, left: restaurantDetailView.leftAnchor, bottom: restaurantDetailView.bottomAnchor, right: restaurantDetailView.rightAnchor)
@@ -321,10 +321,7 @@ extension MapDisplayController{
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         view.image = #imageLiteral(resourceName: "pin-inactive")
         for view in self.restaurantDetailView.subviews {
-            
-                view.removeFromSuperview()
-            
-            
+            view.removeFromSuperview()
         }
         restaurantDetailView.removeFromSuperview()
     }

@@ -1,6 +1,0 @@
-module Pods_AllTrailsLunchTime {
-  umbrella header "Pods-AllTrailsLunchTime-umbrella.h"
-
-  export *
-  module * { export * }
-}

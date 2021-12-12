@@ -75,6 +75,13 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         return view
     }()
     
+    let restaurantDetailView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        view.frame = CGRect(x: 0, y: 0, width: 300, height: 80)
+        return view
+    }()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -222,7 +229,6 @@ extension MapDisplayController {
 //            self.isFiltering = true
 //        }
     }
-    
 }
 
 //MARK: MapKit
@@ -278,28 +284,28 @@ extension MapDisplayController{
         } else {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier )
             annotationView.isEnabled = true
-            annotationView.canShowCallout = true
-            
+            annotationView.canShowCallout = false
         }
         annotationView.image = #imageLiteral(resourceName: "pin-inactive")
         return annotationView
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+        mapView.setCenter((view.annotation?.coordinate)!, animated: true)
         view.image = #imageLiteral(resourceName: "pin-active")
         
         if view.annotation is MKUserLocation {
             return
         }
-        
+
         let calloutView = RestaurantCallOutView()
+
         let annotation = view.annotation as! RestaurantAnnotation
-        
         calloutView.restaurantName.text = annotation.restaurant.name
-        calloutView.center = CGPoint(x: view.bounds.size.width / 2, y: -calloutView.bounds.size.height*0.52)
-        view.addSubview(calloutView)
-        mapView.setCenter((view.annotation?.coordinate)!, animated: true)
+        restaurantDetailView.center = CGPoint(x: mapView.center.x, y: mapView.center.y - 130)
+        restaurantDetailView.addSubview(calloutView)
+        mapView.addSubview(restaurantDetailView)
+        
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {

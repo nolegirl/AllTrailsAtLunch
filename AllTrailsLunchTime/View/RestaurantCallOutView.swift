@@ -49,7 +49,6 @@ class RestaurantCallOutView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
-        label.text = "Supporting Text"
         return label
     }()
     
@@ -66,7 +65,7 @@ class RestaurantCallOutView: UIView {
         
         let stack = UIStackView(arrangedSubviews: [priceLabel, subtitleLabel])
         addSubview(stack)
-        stack.anchor(left: restaurantImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, height: 20)
+        stack.anchor(left: restaurantImageView.rightAnchor, bottom: bottomAnchor, paddingLeft: 8, paddingBottom: 8, height: 20)
         
         addSubview(starImageView)
         starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, bottom: stack.topAnchor, paddingTop: -8, paddingLeft: 8, width: 120, height: 40)
@@ -74,10 +73,7 @@ class RestaurantCallOutView: UIView {
         addSubview(reviewNumberLabel)
         reviewNumberLabel.anchor(top: restaurantName.bottomAnchor, left: starImageView.rightAnchor, bottom: stack.topAnchor, paddingTop: 8, paddingLeft: 8, height: 20)
         reviewNumberLabel.centerY(inView: starImageView)
-        
-        
-        
-        
+
         
     }
     

@@ -311,7 +311,8 @@ extension MapDisplayController{
         calloutView.priceLabel.text = calculatePriceLabel(price: restaurant.price_level)
         calloutView.starImageView.image = calculateStarLevel(stars: restaurant.rating)
 //        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
-        calloutView.reviewNumberLabel.text = "(\(restaurant.user_ratings_total)"
+        calloutView.reviewNumberLabel.text = "(\(restaurant.user_ratings_total))"
+        calloutView.subtitleLabel.text = getOpenHours(open: restaurant.openNow ?? false)
         restaurantDetailView.addSubview(calloutView)
         calloutView.anchor(top: restaurantDetailView.topAnchor, left: restaurantDetailView.leftAnchor, bottom: restaurantDetailView.bottomAnchor, right: restaurantDetailView.rightAnchor)
         mapView.addSubview(restaurantDetailView)
@@ -351,83 +352,16 @@ extension MapDisplayController{
         } else {
             rating = stars
         }
-//        switch restaurant.rating {
-//                case 0:
-//                    image = #imageLiteral(resourceName: "1-star")
-//                    break
-//                case 1:
-//                    image = #imageLiteral(resourceName: "1-star")
-//                    break
-//                case 2:
-//                    image = #imageLiteral(resourceName: "2-star")
-//                    break
-//                case 3:
-//                    image = #imageLiteral(resourceName: "3-star")
-//                    break
-//                case 4:
-//                    image = #imageLiteral(resourceName: "4-star")
-//                    break
-//                case 5:
-//                    image = #imageLiteral(resourceName: "5-star")
-//                    break
-//                default:
-//                    image = #imageLiteral(resourceName: "1-star")
-//                }
         return UIImage(named: "\(rating)-star") ?? UIImage()
     }
     
-//    func configureCustomCalloutView(restaurant: Restaurant) -> RestaurantCallOutView {
-//        let restaurant: Restaurant
-//
-//        cell.restaurantNameLabel.text = restaurant.name
-//        cell.ratingsTotalLabel.text = "(\(restaurant.user_ratings_total))"
-//
-//        var rating = 0
-//        if restaurant.rating == 0 {
-//            rating = 1
-//        } else {
-//            rating = restaurant.rating
-//        }
-//        switch restaurant.rating {
-//        case 0:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
-//            break
-//        case 1:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
-//            break
-//        case 2:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "2-star")
-//            break
-//        case 3:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "3-star")
-//            break
-//        case 4:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "4-star")
-//            break
-//        case 5:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "5-star")
-//            break
-//        default:
-//            cell.starRatingsImageView.image = #imageLiteral(resourceName: "1-star")
-//        }
-//
-//
-//        cell.starRatingsImageView.image = UIImage(named: "\(rating)-star")
-//        switch restaurant.price_level {
-//        case 1:
-//            cell.priceLabel.text = "$ •"
-//        case 2:
-//            cell.priceLabel.text = "$$ •"
-//        case 3:
-//            cell.priceLabel.text = "$$$ •"
-//        case 4:
-//            cell.priceLabel.text = "$$$$ •"
-//        default:
-//            cell.priceLabel.text = "$ •"
-//        }
-//            return cell
-//        }
-//    }
+    func getOpenHours(open: Bool) -> String {
+        if open {
+            return "  OPEN NOW"
+        } else {
+           return "  Check Hours"
+        }
+    }
 }
 
 extension MapDisplayController: UISearchResultsUpdating {

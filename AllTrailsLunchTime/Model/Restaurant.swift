@@ -20,6 +20,7 @@ struct Restaurant {
 //    let types:Array<String>
     let lat: Double
     let lng: Double
+    let openNow: Bool?
     
     //TODO: Create hours using PlaceOpeningHoursPeriod
     
@@ -41,6 +42,9 @@ struct Restaurant {
         let photosArray = dictionary["photos"] as? NSArray
         let photosDictionary = photosArray?[0] as? NSDictionary
         self.photo_reference = photosDictionary?["photo_reference"] as? String ?? "COULD NOT GET PHOTO"
+        
+        let placeHours = dictionary["opening_hours"] as? NSDictionary
+        self.openNow = placeHours?["open_now"] as? Bool ?? false
         
         
         self.user_ratings_total = dictionary["user_ratings_total"] as? Int ?? 0

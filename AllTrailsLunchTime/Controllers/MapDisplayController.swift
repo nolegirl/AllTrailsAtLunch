@@ -258,9 +258,6 @@ extension MapDisplayController{
                 var coordinate = CLLocationCoordinate2D()
                 coordinate.latitude = restaurant.lat
                 coordinate.longitude = restaurant.lng
-                
-                //TODO: Reimplement as abstracted class
-//                let placePoint: MapPoint = MapPoint(name: restaurant.name, address: "", coordinate: coordinate)
             
                 let restAnnotation = RestaurantAnnotation(coordinate: coordinate, restaurant: restaurant)
                 
@@ -310,7 +307,7 @@ extension MapDisplayController{
         calloutView.restaurantName.text = restaurant.name
         calloutView.priceLabel.text = calculatePriceLabel(price: restaurant.price_level)
         calloutView.starImageView.image = calculateStarLevel(stars: restaurant.rating)
-//        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
+        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
         calloutView.reviewNumberLabel.text = "(\(restaurant.user_ratings_total))"
         calloutView.subtitleLabel.text = getOpenHours(open: restaurant.openNow ?? false)
         restaurantDetailView.addSubview(calloutView)

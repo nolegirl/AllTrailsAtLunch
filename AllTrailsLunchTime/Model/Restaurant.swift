@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import UIKit
 
 struct Restaurant {
     //MARK: - Properties
 //    let name: String?
     let photo_reference: String
-//    let photo: UIImage
+    var photo: UIImage?
     let price_level: Int
     let rating: Int
     let user_ratings_total: Int
@@ -46,8 +47,8 @@ struct Restaurant {
         let placeHours = dictionary["opening_hours"] as? NSDictionary
         self.openNow = placeHours?["open_now"] as? Bool ?? false
         
-        
         self.user_ratings_total = dictionary["user_ratings_total"] as? Int ?? 0
+        self.photo = PlacesService.getRestaurantImage(photoReference: self.photo_reference)
     }
 }
 

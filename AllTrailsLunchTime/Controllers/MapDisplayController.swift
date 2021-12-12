@@ -307,13 +307,12 @@ extension MapDisplayController{
         calloutView.restaurantName.text = restaurant.name
         calloutView.priceLabel.text = calculatePriceLabel(price: restaurant.price_level)
         calloutView.starImageView.image = calculateStarLevel(stars: restaurant.rating)
-        calloutView.restaurantImageView.image = #imageLiteral(resourceName: "martis-trail")
+        calloutView.restaurantImageView.image = restaurant.photo ?? #imageLiteral(resourceName: "martis-trail")
         calloutView.reviewNumberLabel.text = "(\(restaurant.user_ratings_total))"
         calloutView.subtitleLabel.text = getOpenHours(open: restaurant.openNow ?? false)
         restaurantDetailView.addSubview(calloutView)
         calloutView.anchor(top: restaurantDetailView.topAnchor, left: restaurantDetailView.leftAnchor, bottom: restaurantDetailView.bottomAnchor, right: restaurantDetailView.rightAnchor)
         mapView.addSubview(restaurantDetailView)
-        
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
@@ -338,11 +337,9 @@ extension MapDisplayController{
             default:
                 return "$ •"
             }
-                return ""
         }
     
     func calculateStarLevel(stars: Int) -> UIImage {
-        let image = UIImage()
         var rating = 0
         if stars == 0 {
             rating = 1

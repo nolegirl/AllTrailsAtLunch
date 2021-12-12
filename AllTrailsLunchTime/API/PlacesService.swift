@@ -59,35 +59,43 @@ struct PlacesService {
         }.resume()
     }
     
-    func getRestaurantImage(photoReference: String) {
+    static func getRestaurantImage(photoReference: String) -> UIImage {
 //        https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=photo_reference&key=YOUR_API_KEY
         
-        let url:String = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=\(photoReference)&key=\(kGOOGLE_API_KEY)"
-        guard let serviceURL = URL(string: url) else {return}
-        var request = URLRequest(url: serviceURL)
-        request.httpMethod = "GET"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 20
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let response = response {
-                print(response)
-            }
+        let urlString:String = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=\(photoReference)&key=\(kGOOGLE_API_KEY)"
+
+        guard let url = URL(string: urlString) else {return UIImage()}
             
-            if let data = data {
-                
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.fragmentsAllowed) as! [String : Any]
-                    
-                    let image = UIImage()
-                    
-                
-//                    completion(image)
-                    print(json)
-                } catch {
-                    print(error)
-                }
+        
+        var image: UIImage? = nil
+            do {
+                //3. Get valid data
+                let data = try Data(contentsOf: url, options: [])
+
+                //4. Make image
+                image = UIImage(data: data)
+                return image ?? UIImage()
             }
-        }.resume()
+            catch {
+                print(error.localizedDescription)
+            }
+        return UIImage()
     }
+    //        guard let serviceURL = URL(string: url) else {return}
+    //        var request = URLRequest(url: serviceURL)
+    //        request.httpMethod = "GET"
+    //        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+    //        request.timeoutInterval = 20
+    //        let session = URLSession.shared
+    //        session.dataTask(with: request) { (data, response, error) in
+    //            if let response = response {
+    //                print(response)
+    //            }
+    //
+    //            if let data = data {
+    //
+    //                do {
+    //                    let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.fragmentsAllowed) as! [String : Any]
+    //
+    //
 }

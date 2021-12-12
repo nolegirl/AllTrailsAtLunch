@@ -33,7 +33,7 @@ class RestaurantCallOutView: UIView {
     let reviewNumberLabel: UILabel = {
         let label = UILabel()
         //TODO: Set up restaurant name
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
         return label
     }()
@@ -57,21 +57,20 @@ class RestaurantCallOutView: UIView {
         super.init(frame: frame)
         
         addSubview(restaurantImageView)
-        restaurantImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, width: 80)
-        
+        restaurantImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 16, paddingLeft: 16, paddingBottom: 16, width: 80)
     
         addSubview(restaurantName)
-        restaurantName.anchor(top: restaurantImageView.topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, height: 20)
+        restaurantName.anchor(top: restaurantImageView.topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingLeft: 8, paddingRight: 8, height: 20)
         
         let stack = UIStackView(arrangedSubviews: [priceLabel, subtitleLabel])
         addSubview(stack)
-        stack.anchor(left: restaurantImageView.rightAnchor, bottom: bottomAnchor, paddingLeft: 8, paddingBottom: 8, height: 20)
+        stack.anchor(left: restaurantImageView.rightAnchor, bottom: restaurantImageView.bottomAnchor, paddingLeft: 8, height: 20)
         
         addSubview(starImageView)
-        starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, bottom: stack.topAnchor, paddingTop: -8, paddingLeft: 8, width: 120, height: 40)
+        starImageView.anchor(top: restaurantName.bottomAnchor, left: restaurantImageView.rightAnchor, bottom: stack.topAnchor, paddingLeft: 8, width: 110, height: 40)
         
         addSubview(reviewNumberLabel)
-        reviewNumberLabel.anchor(top: restaurantName.bottomAnchor, left: starImageView.rightAnchor, bottom: stack.topAnchor, paddingTop: 8, paddingLeft: 8, height: 20)
+        reviewNumberLabel.anchor(top: restaurantName.bottomAnchor, left: starImageView.rightAnchor, bottom: stack.topAnchor, paddingLeft: 8, height: 20)
         reviewNumberLabel.centerY(inView: starImageView)
 
         

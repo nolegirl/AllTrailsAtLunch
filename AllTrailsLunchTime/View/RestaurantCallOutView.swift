@@ -19,7 +19,8 @@ class RestaurantCallOutView: UIView {
     
     let restaurantName: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont.systemFont(ofSize: 16)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        nameLabel.textColor = .darkGray
         return nameLabel
     }()
     
@@ -30,23 +31,25 @@ class RestaurantCallOutView: UIView {
     }()
     
     let reviewNumberLabel: UILabel = {
-        let nameLabel = UILabel()
+        let label = UILabel()
         //TODO: Set up restaurant name
-        nameLabel.font = UIFont.systemFont(ofSize: 16)
-        return nameLabel
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .lightGray
+        return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
         return label
     }()
     
     let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
+        label.text = "Supporting Text"
         return label
     }()
     
@@ -59,7 +62,7 @@ class RestaurantCallOutView: UIView {
         
     
         addSubview(restaurantName)
-        restaurantName.anchor(top: topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, height: 20)
+        restaurantName.anchor(top: restaurantImageView.topAnchor, left: restaurantImageView.rightAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, height: 20)
         
         let stack = UIStackView(arrangedSubviews: [priceLabel, subtitleLabel])
         addSubview(stack)

@@ -117,7 +117,7 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         tableButton.centerX(inView: self.view)
         
         self.view.addSubview(headerView)
-        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 160)
+        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 172)
         
         let logo = UIImage(named: "headerImage")
         let logoView = UIImageView(image: logo)
@@ -142,10 +142,10 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         
         self.headerView.addSubview(filterButton)
         filterButton.setTitle("Filter", for: .normal)
-        filterButton.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor, bottom: headerView.bottomAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 60, height: 44)
+        filterButton.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor, bottom: headerView.bottomAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, width: 60, height: 44)
         
         self.headerView.addSubview(stackview)
-        stackview.anchor(top: logoView.bottomAnchor,left: filterButton.rightAnchor, bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, height: 30)
+        stackview.anchor(top: logoView.bottomAnchor,left: filterButton.rightAnchor, bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 20, paddingRight: 20, height: 30)
  
     }
     

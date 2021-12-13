@@ -45,6 +45,7 @@ class TableDisplayController: UIViewController, UISearchControllerDelegate, UISe
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 11)
         button.titleLabel?.textColor = .lightGray
+        button.setTitle("Filter", for: .normal)
         button.layer.borderWidth = 0.5
         button.frame = CGRect(x: 0, y: 0, width: 60, height: 44)
         button.layer.borderColor = UIColor.lightGray.cgColor

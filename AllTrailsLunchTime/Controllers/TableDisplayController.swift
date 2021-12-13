@@ -153,6 +153,9 @@ extension TableDisplayController {
             default:
                 cell.priceLabel.text = "$ •"
             }
+            
+            cell.subtitleLabel.text = restaurant.openNow ?? false ? "OPEN NOW" : "Check hours online"
+            
                 return cell
             }
         

@@ -23,8 +23,13 @@ class RestaurantTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.cardView.layer.cornerRadius = 8
-        self.cardView.layer.borderWidth = 0.5
+        self.cardView.layer.borderWidth = 0.25
         self.cardView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        self.cardView.layer.shadowColor = UIColor.lightGray.cgColor
+        self.cardView.layer.shadowOpacity = 0.1
+        self.cardView.layer.shadowOffset = CGSize(width: 0.5, height: 1)
+        self.cardView.layer.shadowRadius = 3
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

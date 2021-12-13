@@ -92,7 +92,7 @@ class TableDisplayController: UIViewController, UISearchControllerDelegate, UISe
         headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 160)
         
         view.addSubview(tableView)
-        tableView.anchor(top: headerView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        tableView.anchor(top: headerView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10)
         
         let logo = UIImage(named: "headerImage")
         let logoView = UIImageView(image: logo)
@@ -140,22 +140,30 @@ extension TableDisplayController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if (self.isFiltering) {
-            return self.filteredRestaurants.count
+            return self.filteredRestaurants.count + 1
         } else {
-            return restaurants.count
+            return restaurants.count + 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if (indexPath.row == 0) {
+            let cell = UITableViewCell()
+            cell.backgroundColor = .clear
+            cell.isUserInteractionEnabled = false
+            return cell
+        }
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell") as? RestaurantTableViewCell {
             
             let restaurant: Restaurant
             if (isFiltering) {
-                restaurant = filteredRestaurants[indexPath.row] as Restaurant
+                restaurant = filteredRestaurants[indexPath.row + 1] as Restaurant
             } else {
-                restaurant = restaurants[indexPath.row] as Restaurant
+                restaurant = restaurants[indexPath.row + 1] as Restaurant
             }
-            
+            cell.isUserInteractionEnabled = false
             cell.restaurantNameLabel.text = restaurant.name
             cell.ratingsTotalLabel.text = "(\(restaurant.user_ratings_total))"
             
@@ -216,64 +224,12 @@ extension TableDisplayController {
 //    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 10
+        } else {
         return 100
+        }
     }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = UIView()
-//        headerView.backgroundColor = UIColor.white
-//        headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140)
-//
-//        let logo = UIImage(named: "headerImage")
-//        let logoView = UIImageView(image: logo)
-//        logoView.contentMode = .scaleAspectFit
-//        headerView.addSubview(logoView)
-//        logoView.anchor(
-//            top: headerView.topAnchor,
-//            paddingTop: -2,
-//            width: self.view.frame.size.width,
-//            height:80)
-//        logoView.centerX(inView: headerView)
-//
-//        searchBar.delegate = self
-//        searchBar.placeholder = "Search for a restaurant"
-//        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-//        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
-//        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
-//
-//        let magnifyer = UIImage(named: "searchIcon")
-//        let magnifyerImageView = UIImageView(image: magnifyer)
-//        magnifyerImageView.contentMode = .scaleAspectFit
-//
-//        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
-//        stackview.layer.borderColor = UIColor.lightGray.cgColor
-//        stackview.layer.borderWidth = 0.5
-//
-//        headerView.addSubview(filterButton)
-//        filterButton.setTitle("Filter", for: .normal)
-//        filterButton.anchor(top: logoView.bottomAnchor,
-//                            left: headerView.leftAnchor,
-//                            bottom: headerView.bottomAnchor,
-//                            paddingTop: -8,
-//                            paddingLeft: 20,
-//                            paddingBottom: 2,
-//                            paddingRight: 20,
-//                            width: 60,
-//                            height: 44)
-//
-//        headerView.addSubview(stackview)
-//        stackview.anchor(top: logoView.bottomAnchor,
-//                         left: filterButton.rightAnchor,
-//                         bottom: headerView.bottomAnchor,
-//                         right: headerView.rightAnchor,
-//                         paddingTop: -8,
-//                         paddingLeft: 20,
-//                         paddingBottom: 2,
-//                         paddingRight: 20,
-//                         height: 30)
-//
-//        return headerView
-//    }
     
     //MARK: - Search
     func filterContentForSearchText(_ searchText: String) {

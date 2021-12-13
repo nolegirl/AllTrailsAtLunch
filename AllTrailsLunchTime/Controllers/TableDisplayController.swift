@@ -9,7 +9,6 @@ import UIKit
 
 class TableDisplayController: UIViewController, UISearchControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     
-    
    //MARK: Properties
     lazy var restaurants: [Restaurant] = []
     
@@ -76,10 +75,6 @@ class TableDisplayController: UIViewController, UISearchControllerDelegate, UISe
         tableView.register(restaurantCell,
                                     forCellReuseIdentifier: "RestaurantTableViewCell")
         configureUI()
-    }
-    
-    deinit {
-        print("deinit \(self)")
     }
     
     func configureUI() {
@@ -220,30 +215,12 @@ extension TableDisplayController {
         return UITableViewCell()
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 110
-//    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 10
         } else {
         return 100
         }
-    }
-    
-    //MARK: - Search
-    func filterContentForSearchText(_ searchText: String) {
-        isFiltering = searchBar.text?.isEmpty ?? false ? false : true
-      filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
-        return restaurant.name.lowercased().contains(searchText.lowercased())
-      }
-        self.tableView.reloadData()
-    }
-    
-    //MARK: - Search
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filterContentForSearchText(searchBar.text!)
     }
 }
 
@@ -252,5 +229,16 @@ extension TableDisplayController: UISearchResultsUpdating {
         let searchBar = searchController.searchBar
         filterContentForSearchText(searchBar.text!)
       }
+    
+    func filterContentForSearchText(_ searchText: String) {
+        isFiltering = searchBar.text?.isEmpty ?? false ? false : true
+      filteredRestaurants = restaurants.filter { (restaurant: Restaurant) -> Bool in
+        return restaurant.name.lowercased().contains(searchText.lowercased())
+      }
+        self.tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterContentForSearchText(searchBar.text!)
+    }
 }
-

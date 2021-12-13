@@ -149,13 +149,6 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
  
     }
     
-    override func viewDidLayoutSubviews() {
-        
-    }
-    deinit {
-        print("deinit \(self)")
-    }
-    
     //MARK: - Actions
     @objc func showTableView() {
         let controller = TableDisplayController()
@@ -171,6 +164,11 @@ class MapDisplayController: UIViewController, CLLocationManagerDelegate, MKMapVi
         return restaurant.name.lowercased().contains(searchText.lowercased())
       }
         self.showRestaurants(data: filteredRestaurants as NSArray)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterContentForSearchText(searchBar.text!)
+
     }
 }
 
@@ -221,21 +219,10 @@ extension MapDisplayController {
                 locationManager.requestLocation()
             }
         }
-    
-    //MARK: Search
-    //MARK: Search
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filterContentForSearchText(searchBar.text!)
-//        if ((searchBar.text?.isEmpty) != nil) {
-//            self.isFiltering = false
-//        } else {
-//            self.isFiltering = true
-//        }
-    }
 }
 
 //MARK: MapKit
-extension MapDisplayController{
+extension MapDisplayController {
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         let mapRect: MKMapRect = self.mapView.visibleMapRect
         

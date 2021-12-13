@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableDisplayController: UITableViewController, UISearchControllerDelegate, UISearchBarDelegate {
+class TableDisplayController: UIViewController, UISearchControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     
     
    //MARK: Properties
@@ -25,6 +25,12 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
         button.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
         button.addTarget(self, action: #selector(showMapView), for: .touchUpInside)
         return button
+    }()
+    
+    let headerBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        return view
     }()
     
     let searchBar: UISearchBar = {
@@ -45,6 +51,14 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
         button.alpha = 0.5
         
         return button
+    }()
+    
+    let tableView = UITableView()
+    
+    let headerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        return view
     }()
     
     var filteredRestaurants: [Restaurant] = []
@@ -71,11 +85,44 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
         tableView.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         tableView.separatorColor = .clear
         view.backgroundColor = .white
+        
+        view.addSubview(headerView)
+        headerView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, width: self.view.frame.size.width, height: 160)
+        
+        view.addSubview(tableView)
+        tableView.anchor(top: headerView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        
+        let logo = UIImage(named: "headerImage")
+        let logoView = UIImageView(image: logo)
+        logoView.contentMode = .scaleAspectFit
+        headerView.addSubview(logoView)
+        logoView.anchor(top: headerView.topAnchor, paddingTop: 40, width: self.view.frame.size.width, height:80)
+        logoView.centerX(inView: self.headerView)
+        
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for a restaurant"
+        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
+        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
+        
+        let magnifyer = UIImage(named: "searchIcon")
+        let magnifyerImageView = UIImageView(image: magnifyer)
+        magnifyerImageView.contentMode = .scaleAspectFit
+        
+        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
+        stackview.layer.borderColor = UIColor.lightGray.cgColor
+        stackview.layer.borderWidth = 0.5
+        
+        self.headerView.addSubview(filterButton)
+        filterButton.setTitle("Filter", for: .normal)
+        filterButton.anchor(top: logoView.bottomAnchor, left: self.view.leftAnchor, bottom: headerView.bottomAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, width: 60, height: 44)
+        
+        self.headerView.addSubview(stackview)
+        stackview.anchor(top: logoView.bottomAnchor,left: filterButton.rightAnchor, bottom: headerView.bottomAnchor, right: self.view.rightAnchor, paddingTop: -8, paddingLeft: 20, paddingBottom: 8, paddingRight: 20, height: 30)
+        
         view.addSubview(mapButton)
         mapButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20, width: 100, height: 44)
         mapButton.centerX(inView: self.view)
-
-        self.tableView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     }
     
     //MARK: Actions
@@ -88,7 +135,7 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
 //MARK: TableViewDataSource
 extension TableDisplayController {
     static let restaurantCellIdentifier = "restaurantCell"
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if (self.isFiltering) {
             return self.filteredRestaurants.count
@@ -97,7 +144,7 @@ extension TableDisplayController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "RestaurantTableViewCell") as? RestaurantTableViewCell {
             
             let restaurant: Restaurant
@@ -162,15 +209,15 @@ extension TableDisplayController {
         return UITableViewCell()
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 110
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.white
         headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140)

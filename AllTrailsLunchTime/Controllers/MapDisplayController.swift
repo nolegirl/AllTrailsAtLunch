@@ -313,6 +313,11 @@ extension MapDisplayController{
         restaurantDetailView.addSubview(calloutView)
         calloutView.anchor(top: restaurantDetailView.topAnchor, left: restaurantDetailView.leftAnchor, bottom: restaurantDetailView.bottomAnchor, right: restaurantDetailView.rightAnchor)
         mapView.addSubview(restaurantDetailView)
+        restaurantDetailView.layer.shadowColor = UIColor.black.cgColor
+        restaurantDetailView.layer.cornerRadius = 10
+        restaurantDetailView.layer.shadowOpacity = 0.25
+        restaurantDetailView.layer.shadowOffset = CGSize(width: 0.5, height: 1)
+        restaurantDetailView.layer.shadowRadius = 3
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {

@@ -17,7 +17,7 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
         let button = UIButton()
         button.backgroundColor = #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
         button.imageView?.image = #imageLiteral(resourceName: "list")
-        button.setTitle("List", for: .normal)
+        button.setTitle("Map", for: .normal)
         button.layer.cornerRadius = 8
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 0.5
@@ -68,9 +68,9 @@ class TableDisplayController: UITableViewController, UISearchControllerDelegate,
     }
     
     func configureUI() {
-        self.tableView.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
+        tableView.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         tableView.separatorColor = .clear
-        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        view.backgroundColor = .white
         view.addSubview(mapButton)
         mapButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20, width: 100, height: 44)
         mapButton.centerX(inView: self.view)
@@ -169,6 +169,7 @@ extension TableDisplayController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
+        headerView.backgroundColor = UIColor.white
         headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140)
         
         let logo = UIImage(named: "headerImage")

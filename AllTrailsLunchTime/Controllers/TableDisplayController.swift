@@ -159,9 +159,9 @@ extension TableDisplayController {
             
             let restaurant: Restaurant
             if (isFiltering) {
-                restaurant = filteredRestaurants[indexPath.row + 1] as Restaurant
+                restaurant = filteredRestaurants[indexPath.row - 1] as Restaurant
             } else {
-                restaurant = restaurants[indexPath.row + 1] as Restaurant
+                restaurant = restaurants[indexPath.row - 1] as Restaurant
             }
             cell.isUserInteractionEnabled = false
             cell.restaurantNameLabel.text = restaurant.name

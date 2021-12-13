@@ -72,7 +72,7 @@ class TableDisplayController: UIViewController, UISearchControllerDelegate, UISe
     override func viewDidLoad() {
         let restaurantCell = UINib(nibName: "RestaurantTableViewCell",
                                       bundle: nil)
-            self.tableView.register(restaurantCell,
+        tableView.register(restaurantCell,
                                     forCellReuseIdentifier: "RestaurantTableViewCell")
         configureUI()
     }
@@ -84,6 +84,8 @@ class TableDisplayController: UIViewController, UISearchControllerDelegate, UISe
     func configureUI() {
         tableView.backgroundColor = #colorLiteral(red: 0.9375703931, green: 0.9427609444, blue: 0.9555603862, alpha: 1)
         tableView.separatorColor = .clear
+        tableView.delegate = self
+        tableView.dataSource = self
         view.backgroundColor = .white
         
         view.addSubview(headerView)
@@ -209,69 +211,69 @@ extension TableDisplayController {
         return UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 110
-    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 110
+//    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.white
-        headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140)
-        
-        let logo = UIImage(named: "headerImage")
-        let logoView = UIImageView(image: logo)
-        logoView.contentMode = .scaleAspectFit
-        headerView.addSubview(logoView)
-        logoView.anchor(
-            top: headerView.topAnchor,
-            paddingTop: -2,
-            width: self.view.frame.size.width,
-            height:80)
-        logoView.centerX(inView: headerView)
-        
-        searchBar.delegate = self
-        searchBar.placeholder = "Search for a restaurant"
-        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
-        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
-        
-        let magnifyer = UIImage(named: "searchIcon")
-        let magnifyerImageView = UIImageView(image: magnifyer)
-        magnifyerImageView.contentMode = .scaleAspectFit
-        
-        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
-        stackview.layer.borderColor = UIColor.lightGray.cgColor
-        stackview.layer.borderWidth = 0.5
-        
-        headerView.addSubview(filterButton)
-        filterButton.setTitle("Filter", for: .normal)
-        filterButton.anchor(top: logoView.bottomAnchor,
-                            left: headerView.leftAnchor,
-                            bottom: headerView.bottomAnchor,
-                            paddingTop: -8,
-                            paddingLeft: 20,
-                            paddingBottom: 2,
-                            paddingRight: 20,
-                            width: 60,
-                            height: 44)
-        
-        headerView.addSubview(stackview)
-        stackview.anchor(top: logoView.bottomAnchor,
-                         left: filterButton.rightAnchor,
-                         bottom: headerView.bottomAnchor,
-                         right: headerView.rightAnchor,
-                         paddingTop: -8,
-                         paddingLeft: 20,
-                         paddingBottom: 2,
-                         paddingRight: 20,
-                         height: 30)
-        
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView()
+//        headerView.backgroundColor = UIColor.white
+//        headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140)
+//
+//        let logo = UIImage(named: "headerImage")
+//        let logoView = UIImageView(image: logo)
+//        logoView.contentMode = .scaleAspectFit
+//        headerView.addSubview(logoView)
+//        logoView.anchor(
+//            top: headerView.topAnchor,
+//            paddingTop: -2,
+//            width: self.view.frame.size.width,
+//            height:80)
+//        logoView.centerX(inView: headerView)
+//
+//        searchBar.delegate = self
+//        searchBar.placeholder = "Search for a restaurant"
+//        searchBar.searchTextField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+//        searchBar.searchTextField.rightView = UIImageView(image: UIImage(named: "searchIcon"))
+//        searchBar.searchTextField.rightViewMode = UITextField.ViewMode.always
+//
+//        let magnifyer = UIImage(named: "searchIcon")
+//        let magnifyerImageView = UIImageView(image: magnifyer)
+//        magnifyerImageView.contentMode = .scaleAspectFit
+//
+//        let stackview = UIStackView(arrangedSubviews: [searchBar, magnifyerImageView])
+//        stackview.layer.borderColor = UIColor.lightGray.cgColor
+//        stackview.layer.borderWidth = 0.5
+//
+//        headerView.addSubview(filterButton)
+//        filterButton.setTitle("Filter", for: .normal)
+//        filterButton.anchor(top: logoView.bottomAnchor,
+//                            left: headerView.leftAnchor,
+//                            bottom: headerView.bottomAnchor,
+//                            paddingTop: -8,
+//                            paddingLeft: 20,
+//                            paddingBottom: 2,
+//                            paddingRight: 20,
+//                            width: 60,
+//                            height: 44)
+//
+//        headerView.addSubview(stackview)
+//        stackview.anchor(top: logoView.bottomAnchor,
+//                         left: filterButton.rightAnchor,
+//                         bottom: headerView.bottomAnchor,
+//                         right: headerView.rightAnchor,
+//                         paddingTop: -8,
+//                         paddingLeft: 20,
+//                         paddingBottom: 2,
+//                         paddingRight: 20,
+//                         height: 30)
+//
+//        return headerView
+//    }
     
     //MARK: - Search
     func filterContentForSearchText(_ searchText: String) {
